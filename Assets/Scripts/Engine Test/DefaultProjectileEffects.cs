@@ -7,6 +7,28 @@ public class DefaultProjectileEffects : ProjectileEffect
     public float lifetime = 2.5f;
     private float timeAlive = 0f;
 
+    
+    #region Constructors
+
+    public DefaultProjectileEffects(float _lifetime = 2.5f, bool _isPermanent = false, int _childrenToInheritEffect = 0) :
+        base(_isPermanent, _childrenToInheritEffect)
+    {
+        lifetime = _lifetime;
+    }
+
+    public DefaultProjectileEffects(DefaultProjectileEffects other) : base(other)
+    {
+        lifetime = other.lifetime;
+        timeAlive = 0f;
+    }
+
+    public override ProjectileEffect Clone()
+    {
+        return new DefaultProjectileEffects(this);
+    }
+
+    #endregion
+
     //Assigns effects to the correct places in Projectile's sequence of events
     public override void AddEffects(Projectile projectile)
     {
@@ -35,13 +57,13 @@ public class DefaultProjectileEffects : ProjectileEffect
         }
 
         //Remove Effects
-        Debug.Log("RemovingEffects");
+        Debug.Log("Removing Effects");
 
         projectile.onMoveCalculationEvents -= ChangeMovement;
         projectile.customEvents -= CustomEvent;
 
         //Destroy component after removing effects since it is not permanent
-        Destroy(this);
+        //Destroy(this);
     }
 
     private void ChangeMovement(Projectile projectile)

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
+    //Doesn't show up in the inspector :(
+    public List<ProjectileEffect> projectileEffects = new List<ProjectileEffect>();
+
     //List of available patterns to shoot bullets out via
     [Tooltip("List of available patterns to shoot bullets out via")]
     public List<ProjectilePattern> projectilePatterns = new List<ProjectilePattern>();
     
-    //Determines whether or not it should cycle through multiple projectilePatterns, true if there is > 1 pattern in the list
-    private bool cyclePatterns = false;
+    //Determines whether or not it should cycle through multiple projectilePatterns, true if there is > 1 pattern in the list [UNUSED]
+    //private bool cyclePatterns = false;
     //Holds what the last used pattern was
     private int curPatternIndex = 0;
 
@@ -47,6 +50,15 @@ public class ProjectileSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //TESTING
+        SineWaveProjectileEffect sinEffect = new SineWaveProjectileEffect();
+        sinEffect.frequency = Random.Range(1, 100);
+        sinEffect.magnitude = Random.Range(1, 100);
+        projectileEffects.Add(sinEffect);
+        Debug.Log($"Spawner = {name}; Frequency = {sinEffect.frequency}; Magnitude = {sinEffect.magnitude};");
+
+        projectileEffects.Add(new DefaultProjectileEffects(10f));
+
         //Failure case, the spawner won't work w/o any patterns
         if(projectilePatterns.Count == 0)
         {
@@ -54,12 +66,12 @@ public class ProjectileSpawner : MonoBehaviour
             return;
         }
 
-        //If there is more than one pattern, it will cycle through all of the available patterns
-        if(projectilePatterns.Count > 1)
-        {
-            cyclePatterns = true;
-            curPatternIndex = 0;
-        }
+        //If there is more than one pattern, it will cycle through all of the available patterns [UNUSED]
+        //if(projectilePatterns.Count > 1)
+        //{
+        //    //cyclePatterns = true;
+        //}
+        curPatternIndex = 0;
 
         //Sets the first pattern to be used
         if (randomizePatterns)
@@ -205,7 +217,7 @@ public class ProjectileSpawner : MonoBehaviour
     //If the pattern can be swapped, do so and return true, else return false
     private bool AttemptSwapPattern()
     {
-        Debug.Log($"Using pattern {curPattern.name}");
+        //Debug.Log($"Using pattern {curPattern.name}");
         if(!fireIndefinitely && totalPatternsUsed == patternUses)
         {
             return false;
@@ -279,13 +291,8 @@ public class ProjectileSpawner : MonoBehaviour
             projectile.transform.rotation = rotation;
         }
 
-        //aka Apply relevant components attatched to the spawner to the projectile
-        //TODO: Add SpawnerEffects
-        //TODO: HijackProjectile()
-
-        //TODO: Apply OnSpawn() components to projectile, i.e. shotspeed, lifetime?, etc.
-
-        //For now, I'm hacking a component onto the projectiles
+        //Apply effects attatched to the spawner to the projectile
+        projectile.HijackProjectile(projectileEffects, 0f, 2f);
 
         //Shoot the projectile
         projectile.Initialize();

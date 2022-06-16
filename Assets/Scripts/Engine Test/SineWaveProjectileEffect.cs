@@ -13,6 +13,28 @@ public class SineWaveProjectileEffect : ProjectileEffect
     //Max distance from the sin wave's "center"
     public float magnitude = 0.5f;
 
+    #region Constructors
+
+    public SineWaveProjectileEffect(float _frequency = 1f, float _magnitude = 0.5f, bool _isPermanent = false, int _childrenToInheritEffect = 0) : 
+        base(_isPermanent, _childrenToInheritEffect)
+    {
+        frequency = _frequency;
+        magnitude = _magnitude;
+    }
+
+    public SineWaveProjectileEffect(SineWaveProjectileEffect other) : base(other)
+    {
+        frequency = other.frequency;
+        magnitude = other.magnitude;
+    }
+
+    public override ProjectileEffect Clone()
+    {
+        return new SineWaveProjectileEffect(this);
+    }
+
+    #endregion
+
     //Assigns effects to the correct places in Projectile's sequence of events
     public override void AddEffects(Projectile projectile)
     {
@@ -46,7 +68,7 @@ public class SineWaveProjectileEffect : ProjectileEffect
         projectile.onMoveCalculationEvents -= ChangeMovement;
 
         //Destroy component after removing effects since it is not permanent
-        Destroy(this);
+        //Destroy(this);
     }
 
     private void ChangeMovement(Projectile projectile)

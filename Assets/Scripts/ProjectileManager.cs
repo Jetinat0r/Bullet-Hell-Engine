@@ -58,7 +58,7 @@ public class ProjectileManager : MonoBehaviour
             //Ensures that there is a valid inactive projectile to grab
             if(projectiles.Count == 0)
             {
-                Debug.Log("No projectile found, returning null. [REMOVE MSG LATER]");
+                //Debug.Log("No projectile found, returning null. [REMOVE MSG LATER]");
                 return null;
             }
 
@@ -87,7 +87,7 @@ public class ProjectileManager : MonoBehaviour
             return projectile;
         }
 
-        Debug.Log("No projectile found, returning null. [REMOVE MSG LATER]");
+        //Debug.Log("No projectile found, returning null. [REMOVE MSG LATER]");
         return null;
     }
 
