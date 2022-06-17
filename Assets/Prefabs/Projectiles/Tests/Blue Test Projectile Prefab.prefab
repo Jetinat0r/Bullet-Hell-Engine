@@ -140,6 +140,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   projectileType: Test Burst Projectile
   isLaser: 0
+  projectileEffects: []
   damage: 0
   speed: 5
   lastPos: {x: 0, y: 0, z: 0}

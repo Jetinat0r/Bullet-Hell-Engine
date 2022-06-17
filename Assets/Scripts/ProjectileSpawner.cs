@@ -51,13 +51,14 @@ public class ProjectileSpawner : MonoBehaviour
     void Start()
     {
         //TESTING
-        SineWaveProjectileEffect sinEffect = new SineWaveProjectileEffect();
-        sinEffect.frequency = Random.Range(1, 100);
-        sinEffect.magnitude = Random.Range(1, 100);
-        projectileEffects.Add(sinEffect);
-        Debug.Log($"Spawner = {name}; Frequency = {sinEffect.frequency}; Magnitude = {sinEffect.magnitude};");
+        //SineWaveProjectileEffect sinEffect = ScriptableObject.CreateInstance<SineWaveProjectileEffect>();
+        //sinEffect.frequency = Random.Range(1, 100);
+        //sinEffect.magnitude = Random.Range(1, 100);
+        //projectileEffects.Add(sinEffect);
+        //Debug.Log($"Spawner = {name}; Frequency = {sinEffect.frequency}; Magnitude = {sinEffect.magnitude};");
 
-        projectileEffects.Add(new DefaultProjectileEffects(10f));
+        //ProjectileEffect defaultEffect = ScriptableObject.CreateInstance<DefaultProjectileEffects>();
+        //projectileEffects.Add(defaultEffect);
 
         //Failure case, the spawner won't work w/o any patterns
         if(projectilePatterns.Count == 0)

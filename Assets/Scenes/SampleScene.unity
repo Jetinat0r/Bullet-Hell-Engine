@@ -267,6 +267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileEffects:
+  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
+  - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
   projectilePatterns:
   - {fileID: 11400000, guid: c5debd01157dfb54282558b9e4d34278, type: 2}
   fireIndefinitely: 1
@@ -404,6 +407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileEffects:
+  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   projectilePatterns:
   - {fileID: 11400000, guid: ebd899040fcdf874ab51220553a9e14f, type: 2}
   - {fileID: 11400000, guid: 7de67f89e6adf4c428eedb6ec735207c, type: 2}
@@ -472,6 +477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileEffects:
+  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   projectilePatterns:
   - {fileID: 11400000, guid: a15b92eaaa18131478bcd841a17d97ff, type: 2}
   fireIndefinitely: 1
@@ -620,6 +627,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileEffects:
+  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
+  - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
   projectilePatterns:
   - {fileID: 11400000, guid: 32d4ca9bc1c52964f8bad8eb9c610b2e, type: 2}
   fireIndefinitely: 1

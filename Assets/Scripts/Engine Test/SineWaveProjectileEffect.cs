@@ -2,38 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Sine Wave Projectile Effect", menuName = "ScriptableObjects/Projectile Effects/Sine Wave Projectile Effect")]
 public class SineWaveProjectileEffect : ProjectileEffect
 {
-    //Where the projectile is on the curve
-    private float sinPos = 0f;
-    //How far from "normal" the wave is
-    private float lastOffset;
+    [Space(10f)]
+    [Header("Sine Wave Vars")]
     //How often waves appear
     public float frequency = 1f;
     //Max distance from the sin wave's "center"
     public float magnitude = 0.5f;
+    //Where the projectile is on the curve
+    private float sinPos = 0f;
+    //How far from "normal" the wave is
+    private float lastOffset;
 
-    #region Constructors
-
-    public SineWaveProjectileEffect(float _frequency = 1f, float _magnitude = 0.5f, bool _isPermanent = false, int _childrenToInheritEffect = 0) : 
-        base(_isPermanent, _childrenToInheritEffect)
+    //Used to reset local values on copy
+    public override void Init()
     {
-        frequency = _frequency;
-        magnitude = _magnitude;
+        base.Init();
+        sinPos = 0f;
+        lastOffset = 0f;
     }
-
-    public SineWaveProjectileEffect(SineWaveProjectileEffect other) : base(other)
-    {
-        frequency = other.frequency;
-        magnitude = other.magnitude;
-    }
-
-    public override ProjectileEffect Clone()
-    {
-        return new SineWaveProjectileEffect(this);
-    }
-
-    #endregion
 
     //Assigns effects to the correct places in Projectile's sequence of events
     public override void AddEffects(Projectile projectile)

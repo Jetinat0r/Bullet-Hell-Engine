@@ -2,32 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Default Projectile Effects", menuName = "ScriptableObjects/Projectile Effects/Default Projectile Effects")]
 public class DefaultProjectileEffects : ProjectileEffect
 {
+    [Space(10f)]
+    [Header("Default Effect Vars")]
     public float lifetime = 2.5f;
     private float timeAlive = 0f;
 
-    
-    #region Constructors
-
-    public DefaultProjectileEffects(float _lifetime = 2.5f, bool _isPermanent = false, int _childrenToInheritEffect = 0) :
-        base(_isPermanent, _childrenToInheritEffect)
+    //Used to reset local values on copy
+    public override void Init()
     {
-        lifetime = _lifetime;
-    }
-
-    public DefaultProjectileEffects(DefaultProjectileEffects other) : base(other)
-    {
-        lifetime = other.lifetime;
+        base.Init();
         timeAlive = 0f;
     }
-
-    public override ProjectileEffect Clone()
-    {
-        return new DefaultProjectileEffects(this);
-    }
-
-    #endregion
 
     //Assigns effects to the correct places in Projectile's sequence of events
     public override void AddEffects(Projectile projectile)

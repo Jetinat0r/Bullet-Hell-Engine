@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileEffect
+public class ProjectileEffect : ScriptableObject
 {
+    [Header("Base Vars")]
     //Prevents the component from being removed from a projectile when that projectile's Disable() is called
     //WARNING: effects are allowed to be added to the same projectile multiple times. this may result in unexpected behavior such as projectiles moving twice as far in one step
     //I recommend avoiding this altogether
@@ -14,33 +15,16 @@ public class ProjectileEffect
     /// Examples of effects to not pass to children: projectile splitting effects (infinite projectiles is bad!)
     /// 
     /// A value of -1 will pass the effect every time (logic is: inherit when != 0)
-    /// This needs to be decremented every time a projectile adds a NEW COPY of the effect to a spawner, not from the spawner when added to a projectile or anywhere else
+    /// This needs to be decremented every time a projectile adds a new copy of the effect TO a SPAWNER, not from the spawner when added to a projectile or anywhere else
     /// </summary>
     public int childrenToInheritEffect = 0;
     protected bool hasAppliedEffects = false;
 
-    #region Constructors
-
-    public ProjectileEffect(bool _isPermanent = false, int _childrenToInheritEffect = 0)
+    //Used to reset local values on copy
+    public virtual void Init()
     {
-        isPermanent = false;
-        childrenToInheritEffect = 0;
         hasAppliedEffects = false;
     }
-
-    public ProjectileEffect(ProjectileEffect other)
-    {
-        isPermanent = other.isPermanent;
-        childrenToInheritEffect = other.childrenToInheritEffect;
-        hasAppliedEffects = false;
-    }
-
-    public virtual ProjectileEffect Clone()
-    {
-        return new ProjectileEffect(this);
-    }
-
-    #endregion
 
     //Assigns effects to the correct places in Projectile's sequence of events
     public virtual void AddEffects(Projectile projectile)

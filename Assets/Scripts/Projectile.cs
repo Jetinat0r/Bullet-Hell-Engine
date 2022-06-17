@@ -62,7 +62,9 @@ public class Projectile : MonoBehaviour
     {
         foreach(ProjectileEffect pe in projEffects)
         {
-            projectileEffects.Add(pe.Clone());
+            ProjectileEffect clone = Instantiate(pe);
+            clone.Init();
+            projectileEffects.Add(clone);
         }
 
         damage = _damage;
