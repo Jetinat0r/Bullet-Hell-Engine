@@ -23,7 +23,7 @@ public class DefaultProjectileEffects : ProjectileEffect
         if (!hasAppliedEffects)
         {
             //Apply Effects
-            Debug.Log("Applying Effects!");
+            //Debug.Log("Applying Effects!");
 
             projectile.onMoveCalculationEvents += ChangeMovement;
             projectile.customEvents += CustomEvent;
@@ -40,12 +40,12 @@ public class DefaultProjectileEffects : ProjectileEffect
     {
         if (isPermanent)
         {
-            Debug.Log("Permanent effect, not removing");
+            //Debug.Log("Permanent effect, not removing");
             return;
         }
 
         //Remove Effects
-        Debug.Log("Removing Effects");
+        //Debug.Log("Removing Effects");
 
         projectile.onMoveCalculationEvents -= ChangeMovement;
         projectile.customEvents -= CustomEvent;

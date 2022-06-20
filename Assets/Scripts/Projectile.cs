@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
 
     //Things set in the editor/before the projectile is considered for use
     public string projectileType = "DEFAULT_PROJECTILE";
+    public ColliderType colliderType = ColliderType.CIRCLE;
     //public Sprite projectileGraphics;
 
     //Things set by the spawner before initialization
@@ -56,6 +57,22 @@ public class Projectile : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void SetupNewPrefab(string _projectileType, ColliderType _colliderType, Sprite _sprite = null, Color? _color = null)
+    {
+        projectileType = _projectileType;
+        colliderType = _colliderType;
+
+        if (_sprite != null)
+        {
+            spriteRenderer.sprite = _sprite;
+        }
+
+        if(_color != null)
+        {
+            spriteRenderer.color = (Color)_color;
+        }
     }
 
     public void HijackProjectile(List<ProjectileEffect> projEffects, float _damage = 0f, float _speed = 0f)

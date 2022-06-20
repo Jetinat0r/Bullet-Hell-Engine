@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Test Default Effects
   m_EditorClassIdentifier: 
   isPermanent: 0
-  childrenToInheritEffect: 0
+  childrenToInheritEffect: -1
   lifetime: 10

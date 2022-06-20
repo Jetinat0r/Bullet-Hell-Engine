@@ -218,7 +218,7 @@ RectTransform:
   m_Children:
   - {fileID: 1626202251}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerProjectileType: Sine_Projectile
   projectileEffects:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
@@ -292,7 +293,7 @@ Transform:
   - {fileID: 860002864}
   - {fileID: 1256282484}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -407,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerProjectileType: Burst_Projectile
   projectileEffects:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   projectilePatterns:
@@ -477,6 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerProjectileType: Even_Projectile
   projectileEffects:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   projectilePatterns:
@@ -596,7 +599,53 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1561151715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1561151717}
+  - component: {fileID: 1561151716}
+  m_Layer: 0
+  m_Name: Tester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1561151716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561151715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06225762098b4741b04e209e199640f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
+  instantiatedProjectiles: []
+--- !u!4 &1561151717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561151715}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584469939
 GameObject:
@@ -627,6 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerProjectileType: Slow_Projectile
   projectileEffects:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
@@ -650,7 +700,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1626202250
 GameObject:
@@ -787,3 +837,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626202250}
   m_CullTransparentMesh: 1
+--- !u!1 &2112811562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2112811564}
+  - component: {fileID: 2112811563}
+  m_Layer: 0
+  m_Name: Cached BHE Resources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2112811563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112811562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb41150f70ac86419e542c6e2909a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
+--- !u!4 &2112811564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112811562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

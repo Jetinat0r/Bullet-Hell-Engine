@@ -12,9 +12,6 @@ public class ProjectilePattern : ScriptableObject
         CUSTOM,
     }
 
-    //Holds data, I'm gonna have to figure this out
-    public Projectile projectilePrefab;
-
     //If true, aligns pattern to spawner rotation, else aligns pattern to world space
     public bool useSpawnerRotation;
 

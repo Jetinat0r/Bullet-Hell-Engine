@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
-    //Doesn't show up in the inspector :(
+    //The projectile that this spawner fires. Can be overridden by spawner effects, but be careful
+    public string spawnerProjectileType;
+
+    //The effects to apply to every projectile spawned via this spawner
     public List<ProjectileEffect> projectileEffects = new List<ProjectileEffect>();
 
     //List of available patterns to shoot bullets out via
@@ -148,7 +151,7 @@ public class ProjectileSpawner : MonoBehaviour
                     {
                         projDirection = Quaternion.Euler(new Vector3(0f, 0f, Random.Range(curPatternData.minAngle, curPatternData.maxAngle)));
                     }
-                    FireProjectile(curPatternData.projectilePrefab, projDirection, curPatternData.projectileSpeed);
+                    FireProjectile(spawnerProjectileType, projDirection, curPatternData.projectileSpeed);
                 }
                 break;
 
@@ -180,7 +183,7 @@ public class ProjectileSpawner : MonoBehaviour
                     {
                         projDirection = Quaternion.Euler(new Vector3(0f, 0f, curPatternData.minAngle + (angleIncrement * i)));
                     }
-                    FireProjectile(curPatternData.projectilePrefab, projDirection, curPatternData.projectileSpeed);
+                    FireProjectile(spawnerProjectileType, projDirection, curPatternData.projectileSpeed);
                 }
                 break;
 
@@ -199,7 +202,7 @@ public class ProjectileSpawner : MonoBehaviour
                     {
                         projDirection = Quaternion.Euler(new Vector3(0f, 0f, curPatternData.projectileRotations[i]));
                     }
-                    FireProjectile(curPatternData.projectilePrefab, projDirection, curPatternData.projectileSpeed);
+                    FireProjectile(spawnerProjectileType, projDirection, curPatternData.projectileSpeed);
                 }
                 break;
         }
@@ -276,21 +279,13 @@ public class ProjectileSpawner : MonoBehaviour
         }
     }
 
-    private void FireProjectile(Projectile projectilePrefab, Quaternion rotation, float projectileSpeed)
+    private void FireProjectile(string _spawnerProjectileType, Quaternion _rotation, float _projectileSpeed)
     {
         //Gets a projectile component attatched to a GameObject
-        Projectile projectile = ProjectileManager.instance.TryGetOldProjectile(projectilePrefab.projectileType);
-        if (projectile == null)
-        {
-            projectile = Instantiate(projectilePrefab.gameObject, transform.position, rotation).GetComponent<Projectile>();
-            ProjectileManager.instance.AddProjectile(projectile);
-        }
-        else
-        {
-            //Resets values for old projectiles non-destructively
-            projectile.transform.position = transform.position;
-            projectile.transform.rotation = rotation;
-        }
+        Projectile projectile = ProjectileManager.instance.GetProjectile(_spawnerProjectileType);
+
+        //Sets up the position and rotation of projectiles in a way that avoids obvious snapping
+        projectile.transform.SetPositionAndRotation(transform.position, _rotation);
 
         //Apply effects attatched to the spawner to the projectile
         projectile.HijackProjectile(projectileEffects, 0f, 2f);

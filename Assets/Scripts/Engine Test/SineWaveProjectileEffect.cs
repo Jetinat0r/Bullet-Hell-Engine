@@ -30,7 +30,7 @@ public class SineWaveProjectileEffect : ProjectileEffect
         if (!hasAppliedEffects)
         {
             //Apply Effects
-            Debug.Log("Applying Effects!");
+            //Debug.Log("Applying Effects!");
 
             projectile.onMoveCalculationEvents += ChangeMovement;
 
@@ -47,12 +47,12 @@ public class SineWaveProjectileEffect : ProjectileEffect
     {
         if (isPermanent)
         {
-            Debug.Log("Permanent effect, not removing");
+            //Debug.Log("Permanent effect, not removing");
             return;
         }
 
         //Remove Effects
-        Debug.Log("RemovingEffects");
+        //Debug.Log("RemovingEffects");
 
         projectile.onMoveCalculationEvents -= ChangeMovement;
 

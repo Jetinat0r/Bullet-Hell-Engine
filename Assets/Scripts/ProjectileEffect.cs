@@ -17,7 +17,7 @@ public class ProjectileEffect : ScriptableObject
     /// A value of -1 will pass the effect every time (logic is: inherit when != 0)
     /// This needs to be decremented every time a projectile adds a new copy of the effect TO a SPAWNER, not from the spawner when added to a projectile or anywhere else
     /// </summary>
-    public int childrenToInheritEffect = 0;
+    public int descendantsToInheritEffect = -1;
     protected bool hasAppliedEffects = false;
 
     //Used to reset local values on copy
@@ -32,7 +32,7 @@ public class ProjectileEffect : ScriptableObject
         if (!hasAppliedEffects)
         {
             //Apply Effects
-            Debug.Log("Applying Effects!");
+            //Debug.Log("Applying Effects!");
             hasAppliedEffects = true;
         }
     }
@@ -42,12 +42,12 @@ public class ProjectileEffect : ScriptableObject
     {
         if (isPermanent)
         {
-            Debug.Log("Permanent effect, not removing");
+            //Debug.Log("Permanent effect, not removing");
             return;
         }
 
         //Remove Effects
-        Debug.Log("Removing Effects");
+        //Debug.Log("Removing Effects");
 
         //TODO: Maybe send the component back to a pool? Let's see if it's necessary first
     }

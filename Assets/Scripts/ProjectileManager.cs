@@ -28,8 +28,8 @@ public class ProjectileManager : MonoBehaviour
         }
     }
 
-    //Adds the specified projectile to the pool of available bullets
-    public void AddProjectile(Projectile projectile)
+    //Creates a new projectile via CachedBHEResources based off of the given projectileType
+    public Projectile CreateNewProjectile(string _projectileType)
     {
         //Ensures that there is room for the projectile to exist
         while(activeProjectileSpawnOrder.Count >= maxProjectiles)
@@ -37,29 +37,42 @@ public class ProjectileManager : MonoBehaviour
             DeactivateProjectile(activeProjectileSpawnOrder[0]);
         }
 
-        //Ensures that there is a list in inactiveProjectiles to receive the given projectile
-        if (!activeProjectiles.ContainsKey(projectile.projectileType))
+        //Ensures that there is a list in activeProjectiles to receive the given projectile
+        if (!activeProjectiles.ContainsKey(_projectileType))
         {
-            activeProjectiles.Add(projectile.projectileType, new List<Projectile>());
+            activeProjectiles.Add(_projectileType, new List<Projectile>());
         }
 
         //Adds the projectile to activeProjectiles and puts it in the spawn order
-        activeProjectiles[projectile.projectileType].Add(projectile);
-        activeProjectileSpawnOrder.Add(projectile);
+        Projectile newProjectile = CachedBHEResources.instance.InstantiateProjectile(_projectileType);
+
+        if (newProjectile == null)
+        {
+            Debug.LogError($"Failed to add new projectile of type ({_projectileType})");
+            return null;
+        }
+
+        //Enables the projectile as if was pooled or instantiated it would be disabled
+        newProjectile.gameObject.SetActive(true);
+
+        //Adds the projectile to the pool
+        activeProjectiles[_projectileType].Add(newProjectile);
+        activeProjectileSpawnOrder.Add(newProjectile);
+
+        return newProjectile;
     }
 
-    //Returns a disabled projectile from the specified pool and sets "isActive" to true
-    //If no projectile is found, returns null
-    public Projectile TryGetOldProjectile(string projectileType)
+    //Returns a projectile via the specified projectileType and sets "isActive" to true
+    //If there is a disable projectile, that one will take priority over instantiating a new one
+    public Projectile GetProjectile(string _projectileType)
     {
         //Checks if there is a list in inactiveProjectiles for the given projectileType
-        if (inactiveProjectiles.TryGetValue(projectileType, out List<Projectile> projectiles))
+        if (inactiveProjectiles.TryGetValue(_projectileType, out List<Projectile> projectiles))
         {
             //Ensures that there is a valid inactive projectile to grab
             if(projectiles.Count == 0)
             {
-                //Debug.Log("No projectile found, returning null. [REMOVE MSG LATER]");
-                return null;
+                return CreateNewProjectile(_projectileType);
             }
 
             //Grabs a projectile
@@ -69,11 +82,11 @@ public class ProjectileManager : MonoBehaviour
             //Ensures that a list exists in the activeProjectiles dictionary to receive the new projectile
             //If it doesn't exist, creates one, and then either way continues to add the projectile to that list
             //This should never run, but is here just in case
-            if (!activeProjectiles.ContainsKey(projectileType))
+            if (!activeProjectiles.ContainsKey(_projectileType))
             {
-                activeProjectiles.Add(projectileType, new List<Projectile>());
+                activeProjectiles.Add(_projectileType, new List<Projectile>());
             }
-            activeProjectiles[projectileType].Add(projectile);
+            activeProjectiles[_projectileType].Add(projectile);
 
             //Ensures that there is room for the projectile to exist
             while (activeProjectileSpawnOrder.Count >= maxProjectiles)
@@ -86,9 +99,10 @@ public class ProjectileManager : MonoBehaviour
             activeProjectileSpawnOrder.Add(projectile);
             return projectile;
         }
-
-        //Debug.Log("No projectile found, returning null. [REMOVE MSG LATER]");
-        return null;
+        else
+        {
+            return CreateNewProjectile(_projectileType);
+        }
     }
 
     //Moves a projectile from the activeProjectiles dictionary to the inactiveProjectiles dictionary and sets "isActive" to false
@@ -109,7 +123,7 @@ public class ProjectileManager : MonoBehaviour
     }
 
     //Clears all projectile pools
-    public void ClearProjectile()
+    public void ClearProjectilePools()
     {
         //Clears the dictionary of and destroys all active projectiles
         foreach(string key in activeProjectiles.Keys)
