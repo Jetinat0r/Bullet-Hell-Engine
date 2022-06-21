@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dec5445a662a4849accabc59ae9cf69, type: 3}
   m_Name: Test Sine Effect
   m_EditorClassIdentifier: 
+  effectType: Test_Sine_Effect
   isPermanent: 0
-  childrenToInheritEffect: -1
+  descendantsToInheritEffect: -1
   frequency: 20
   magnitude: 45

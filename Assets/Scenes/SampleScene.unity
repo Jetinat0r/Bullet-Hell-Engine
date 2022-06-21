@@ -268,16 +268,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Sine_Projectile
-  projectileEffects:
-  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
-  - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
-  projectilePatterns:
-  - {fileID: 11400000, guid: c5debd01157dfb54282558b9e4d34278, type: 2}
+  defaultProjectileEffects:
+  - Test_Default_Effects
+  - Test_Sine_Effect
+  defaultProjectilePatterns:
+  - Sine_Test_Pattern
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
   stopOnCompletion: 0
   noRandomRepeats: 0
+  projectileEffects: []
+  projectilePatterns: []
 --- !u!4 &282895546
 Transform:
   m_ObjectHideFlags: 0
@@ -409,17 +411,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Burst_Projectile
-  projectileEffects:
-  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
-  projectilePatterns:
-  - {fileID: 11400000, guid: ebd899040fcdf874ab51220553a9e14f, type: 2}
-  - {fileID: 11400000, guid: 7de67f89e6adf4c428eedb6ec735207c, type: 2}
-  - {fileID: 11400000, guid: ebd899040fcdf874ab51220553a9e14f, type: 2}
+  defaultProjectileEffects:
+  - Test_Default_Effects
+  defaultProjectilePatterns:
+  - Burst_Test_Pattern
+  - Burst_Blank_Pattern
+  - Burst_Test_Pattern
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 1
   stopOnCompletion: 0
   noRandomRepeats: 1
+  projectileEffects: []
+  projectilePatterns: []
 --- !u!4 &860002864
 Transform:
   m_ObjectHideFlags: 0
@@ -480,15 +484,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Even_Projectile
-  projectileEffects:
-  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
-  projectilePatterns:
-  - {fileID: 11400000, guid: a15b92eaaa18131478bcd841a17d97ff, type: 2}
+  defaultProjectileEffects:
+  - Test_Default_Effects
+  defaultProjectilePatterns:
+  - Even_Test_Pattern
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
   stopOnCompletion: 0
   noRandomRepeats: 0
+  projectileEffects: []
+  projectilePatterns: []
 --- !u!1 &1461215322
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,16 +683,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Slow_Projectile
-  projectileEffects:
-  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
-  - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
-  projectilePatterns:
-  - {fileID: 11400000, guid: 32d4ca9bc1c52964f8bad8eb9c610b2e, type: 2}
+  defaultProjectileEffects:
+  - Test_Default_Effects
+  defaultProjectilePatterns:
+  - Slow_Test_Pattern
   fireIndefinitely: 1
   patternUses: 0
   randomizePatterns: 0
   stopOnCompletion: 1
   noRandomRepeats: 0
+  projectileEffects: []
+  projectilePatterns: []
 --- !u!4 &1584469941
 Transform:
   m_ObjectHideFlags: 0
@@ -867,6 +874,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
+  editorProjectileEffectScripObjs:
+  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
+  - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
+  editorProjectilePatternScripObjs:
+  - {fileID: 11400000, guid: 7de67f89e6adf4c428eedb6ec735207c, type: 2}
+  - {fileID: 11400000, guid: ebd899040fcdf874ab51220553a9e14f, type: 2}
+  - {fileID: 11400000, guid: a15b92eaaa18131478bcd841a17d97ff, type: 2}
+  - {fileID: 11400000, guid: c5debd01157dfb54282558b9e4d34278, type: 2}
+  - {fileID: 11400000, guid: 32d4ca9bc1c52964f8bad8eb9c610b2e, type: 2}
 --- !u!4 &2112811564
 Transform:
   m_ObjectHideFlags: 0

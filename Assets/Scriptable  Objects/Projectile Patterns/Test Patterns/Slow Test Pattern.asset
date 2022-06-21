@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e71852e949dad746a2e9e7a368ff036, type: 3}
   m_Name: Slow Test Pattern
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 5837569206297429203, guid: 14efcb36945d9b941a87199022789987, type: 3}
+  patternType: Slow_Test_Pattern
   useSpawnerRotation: 1
   minAngle: 0
   maxAngle: 360

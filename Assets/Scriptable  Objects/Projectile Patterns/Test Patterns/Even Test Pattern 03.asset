@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e71852e949dad746a2e9e7a368ff036, type: 3}
   m_Name: Even Test Pattern 03
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 5837569206297429203, guid: 50cf3e729ac49254086ba39938bb6aad, type: 3}
+  patternType: Even_Test_Pattern
   useSpawnerRotation: 1
   minAngle: 22.5
   maxAngle: 337.5

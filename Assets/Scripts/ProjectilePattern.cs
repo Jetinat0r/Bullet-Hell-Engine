@@ -12,6 +12,8 @@ public class ProjectilePattern : ScriptableObject
         CUSTOM,
     }
 
+    public string patternType;
+
     //If true, aligns pattern to spawner rotation, else aligns pattern to world space
     public bool useSpawnerRotation;
 

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
+    #region Manually Set Vars
     //The projectile that this spawner fires. Can be overridden by spawner effects, but be careful
     public string spawnerProjectileType;
 
-    //The effects to apply to every projectile spawned via this spawner
-    public List<ProjectileEffect> projectileEffects = new List<ProjectileEffect>();
+    //The projectile effects that the spawner will always apply to the projectiles that it spawns
+    [Tooltip("The projectile effects that the spawner will always apply to the projectiles that it spawns")]
+    public List<string> defaultProjectileEffects = new List<string>();
 
-    //List of available patterns to shoot bullets out via
-    [Tooltip("List of available patterns to shoot bullets out via")]
-    public List<ProjectilePattern> projectilePatterns = new List<ProjectilePattern>();
+    //The projectile patterns that the spawner will always use when it spawns projectiles
+    [Tooltip("The projectile patterns that the spawner will always use when it spawns projectiles")]
+    public List<string> defaultProjectilePatterns = new List<string>();
     
     //Determines whether or not it should cycle through multiple projectilePatterns, true if there is > 1 pattern in the list [UNUSED]
     //private bool cyclePatterns = false;
@@ -40,7 +42,18 @@ public class ProjectileSpawner : MonoBehaviour
     //Decides if the the randomized patterns should be able to use the same pattern twice in a row or not. Only used if randomizePatterns is true
     [Tooltip("Decides if the the randomized patterns should be able to use the same pattern twice in a row or not. Only used if randomizePatterns is true")]
     public bool noRandomRepeats = false;
+    #endregion
 
+    #region Dynamically Set Vars
+    //The effects to apply to every projectile spawned via this spawner
+    public List<ProjectileEffect> projectileEffects = new List<ProjectileEffect>();
+
+    //List of available patterns to shoot bullets out via
+    [Tooltip("List of available patterns to shoot bullets out via")]
+    public List<ProjectilePattern> projectilePatterns = new List<ProjectilePattern>();
+    #endregion
+
+    #region Private Vars
     //Holds the pattern currently being used
     private ProjectilePattern curPattern;
     //Timer for cooldown between shots
@@ -49,22 +62,33 @@ public class ProjectileSpawner : MonoBehaviour
     private int timesSpawned = 0;
     //Keeps track of how many patterns have been started, in practice used to stop random patterns
     private int totalPatternsUsed = 0;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        //TESTING
-        //SineWaveProjectileEffect sinEffect = ScriptableObject.CreateInstance<SineWaveProjectileEffect>();
-        //sinEffect.frequency = Random.Range(1, 100);
-        //sinEffect.magnitude = Random.Range(1, 100);
-        //projectileEffects.Add(sinEffect);
-        //Debug.Log($"Spawner = {name}; Frequency = {sinEffect.frequency}; Magnitude = {sinEffect.magnitude};");
+        //Sets up default projectile effects
+        foreach (string _projEffectType in defaultProjectileEffects)
+        {
+            ProjectileEffect _effect = CachedBHEResources.instance.GetProjectileEffect(_projEffectType);
+            if (_effect != null)
+            {
+                projectileEffects.Add(_effect);
+            }
+        }
 
-        //ProjectileEffect defaultEffect = ScriptableObject.CreateInstance<DefaultProjectileEffects>();
-        //projectileEffects.Add(defaultEffect);
+        //Sets up default projectile patterns
+        foreach (string _projPatternType in defaultProjectilePatterns)
+        {
+            ProjectilePattern _pattern = CachedBHEResources.instance.GetProjectilePattern(_projPatternType);
+            if (_pattern != null)
+            {
+                projectilePatterns.Add(_pattern);
+            }
+        }
 
         //Failure case, the spawner won't work w/o any patterns
-        if(projectilePatterns.Count == 0)
+        if (projectilePatterns.Count == 0)
         {
             Debug.LogError($"No projectile patterns found in ProjectileSpawner ({name})");
             return;
@@ -94,7 +118,7 @@ public class ProjectileSpawner : MonoBehaviour
 
         if(patternUses == 0)
         {
-            Debug.LogWarning($"Pattern uses set to 0 for ({name}), setting fireIndefinitely to true!");
+            Debug.LogWarning($"Pattern uses is set to 0 for ({name}), setting fireIndefinitely to true!");
             fireIndefinitely = true;
         }
     }

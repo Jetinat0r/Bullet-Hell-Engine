@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e71852e949dad746a2e9e7a368ff036, type: 3}
   m_Name: Blank Burst Test Pattern 04
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
+  patternType: Burst_Blank_Pattern
   useSpawnerRotation: 0
   minAngle: 0
   maxAngle: 360
