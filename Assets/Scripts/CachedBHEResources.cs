@@ -20,13 +20,20 @@ public class CachedBHEResources : MonoBehaviour
     //Stores all base projectile prefabs, the key is the projectileType
     public Dictionary<string, Projectile> projectilePrefabs = new Dictionary<string, Projectile>();
 
+    //List for me to add spawner effects to the dictionary
+    [SerializeField]
+    [Tooltip("These are for setting up spawner effects via the editor")]
+    private List<SpawnerEffect> editorSpawnerEffectScripObjs = new List<SpawnerEffect>();
+    //Every available Projectile Effect that spawners can choose from. The effects can still be modified after being copied over, but these are the defaults
+    public Dictionary<string, SpawnerEffect> spawnerEffects = new Dictionary<string, SpawnerEffect>();
+
     //List for me to add projectile effects to the dictionary
     [SerializeField] [Tooltip("These are for setting up projectile effects via the editor")]
     private List<ProjectileEffect> editorProjectileEffectScripObjs = new List<ProjectileEffect>();
     //Every available Projectile Effect that spawners can choose from. The effects can still be modified after being copied over, but these are the defaults
     public Dictionary<string, ProjectileEffect> projectileEffects = new Dictionary<string, ProjectileEffect>();
 
-    //List for me to add projectile effects to the dictionary
+    //List for me to add projectile patterns to the dictionary
     [SerializeField] [Tooltip("These are for setting up projectile effects via the editor")]
     private List<ProjectilePattern> editorProjectilePatternScripObjs = new List<ProjectilePattern>();
     //Every available Projectile Effect that spawners can choose from. The effects can still be modified after being copied over, but these are the defaults
@@ -60,6 +67,11 @@ public class CachedBHEResources : MonoBehaviour
         foreach(ProjectilePattern _pattern in editorProjectilePatternScripObjs)
         {
             GenerateProjectilePatternPrefab(_pattern);
+        }
+
+        foreach (SpawnerEffect _effectPrefab in editorSpawnerEffectScripObjs)
+        {
+            GenerateSpawnerEffectPrefab(_effectPrefab);
         }
     }
 
@@ -129,8 +141,11 @@ public class CachedBHEResources : MonoBehaviour
 
         //Disables the prefab to avoid finding it during gameplay
         newProjectile.gameObject.SetActive(false);
+
+        Debug.Log($"Created projectile prefab ({newProjectile.name})");
     }
 
+    /*
     public void GenerateProjectilePrefab(string _projectileType, ColliderType colliderType, SpriteRenderer _spriteRenderer = null)
     {
         if (projectilePrefabs.ContainsKey(_projectileType))
@@ -139,6 +154,7 @@ public class CachedBHEResources : MonoBehaviour
             return;
         }
     }
+    */
 
     //Called by ProjectileManager when it attempts to create a new projectile
     //Returns a new copy of the desired projectile
@@ -168,6 +184,7 @@ public class CachedBHEResources : MonoBehaviour
             return;
         }
 
+        Debug.Log($"Created projectile effect ({_effect.projectileEffectType})");
         projectileEffects.Add(_effect.projectileEffectType, _effect);
     }
 
@@ -185,7 +202,32 @@ public class CachedBHEResources : MonoBehaviour
     #endregion
 
     #region Spawner Effects
+    //Adds a spawner effect to the list of available effects to copy. Generation of mod effects will occur elsewhere, perhaps TODO: in a [modname].cs file
+    public void GenerateSpawnerEffectPrefab(SpawnerEffect _effect)
+    {
+        if (spawnerEffects.ContainsKey(_effect.spawnerEffectType))
+        {
+            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.spawnerEffectType}) already exists!");
+            return;
+        }
 
+        Debug.Log($"Created spawner effect ({_effect.spawnerEffectType})");
+        spawnerEffects.Add(_effect.spawnerEffectType, _effect);
+    }
+
+    //Returns a new copy of the desired spawner effect
+    public SpawnerEffect GetSpawnerEffect(string _effectType)
+    {
+        if (spawnerEffects.TryGetValue(_effectType, out SpawnerEffect _effect))
+        {
+            SpawnerEffect _newEffect = Instantiate(_effect);
+            _newEffect.Init();
+            return _newEffect;
+        }
+
+        Debug.LogError($"Projectile Effect of type ({_effectType}) does not exist!");
+        return null;
+    }
     #endregion
 
     #region ProjectilePatterns
@@ -198,7 +240,7 @@ public class CachedBHEResources : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Created pattern ({_pattern.patternType})");
+        Debug.Log($"Created projectile pattern ({_pattern.patternType})");
         projectilePatterns.Add(_pattern.patternType, _pattern);
     }
 

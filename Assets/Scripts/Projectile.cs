@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     public List<string> targetTags = new List<string>();
     public List<string> targetTeams = new List<string>();
 
-    //Properties that ProjectileEffect can influence
+    #region Methods that ProjectileEffect can Influence
     public delegate void UseProjectileEffect(Projectile projectile);
     //onTriggerEnterEvents for when the projectile collides with anything it is allowed to
     public UseProjectileEffect onTriggerEnterEvents = null;
@@ -52,6 +52,7 @@ public class Projectile : MonoBehaviour
     public UseProjectileEffect onDeathEvents = null;
     //customEvents for when you want to get spicy w/ how the projectile behaves. Use at your own risk
     public UseProjectileEffect customEvents = null;
+    #endregion
 
     private void Awake()
     {

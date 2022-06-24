@@ -20,5 +20,5 @@ MonoBehaviour:
   numProjectiles: 0
   projectileRotations: []
   numSpawns: 1
-  projectileSpeed: 0
+  projectileSpeed: 2
   shotCooldown: 4

@@ -268,6 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Sine_Projectile
+  defaultSpawnerEffects:
+  - Rotate_45_Per_Sec
   defaultProjectileEffects:
   - Test_Default_Effects
   - Test_Sine_Effect
@@ -278,6 +280,8 @@ MonoBehaviour:
   randomizePatterns: 0
   stopOnCompletion: 0
   noRandomRepeats: 0
+  isEnabled: 0
+  spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
 --- !u!4 &282895546
@@ -308,6 +312,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -381,6 +386,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &860002862
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Burst_Projectile
+  defaultSpawnerEffects: []
   defaultProjectileEffects:
   - Test_Default_Effects
   defaultProjectilePatterns:
@@ -422,6 +461,8 @@ MonoBehaviour:
   randomizePatterns: 1
   stopOnCompletion: 0
   noRandomRepeats: 1
+  isEnabled: 0
+  spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
 --- !u!4 &860002864
@@ -484,6 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Even_Projectile
+  defaultSpawnerEffects: []
   defaultProjectileEffects:
   - Test_Default_Effects
   defaultProjectilePatterns:
@@ -493,6 +535,8 @@ MonoBehaviour:
   randomizePatterns: 0
   stopOnCompletion: 0
   noRandomRepeats: 0
+  isEnabled: 0
+  spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
 --- !u!1 &1461215322
@@ -683,6 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Slow_Projectile
+  defaultSpawnerEffects: []
   defaultProjectileEffects:
   - Test_Default_Effects
   defaultProjectilePatterns:
@@ -692,6 +737,8 @@ MonoBehaviour:
   randomizePatterns: 0
   stopOnCompletion: 1
   noRandomRepeats: 0
+  isEnabled: 0
+  spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
 --- !u!4 &1584469941
@@ -874,6 +921,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
+  editorSpawnerEffectScripObjs:
+  - {fileID: 11400000, guid: a258a678f10264645aa24eb510a6f0fd, type: 2}
   editorProjectileEffectScripObjs:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}

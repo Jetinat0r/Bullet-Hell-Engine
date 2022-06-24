@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dec5445a662a4849accabc59ae9cf69, type: 3}
-  m_Name: Test Sine Effect
+  m_Script: {fileID: 11500000, guid: 2b4314d64d9eaca4b93b64c04397bef2, type: 3}
+  m_Name: Rotate45PerSec
   m_EditorClassIdentifier: 
-  projectileEffectType: Test_Sine_Effect
-  isPermanent: 0
+  spawnerEffectType: Rotate_45_Per_Sec
   generationsToInheritEffect: -1
-  frequency: 20
-  magnitude: 45
+  rotationSpeed: 45

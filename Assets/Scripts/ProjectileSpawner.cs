@@ -8,6 +8,10 @@ public class ProjectileSpawner : MonoBehaviour
     //The projectile that this spawner fires. Can be overridden by spawner effects, but be careful
     public string spawnerProjectileType;
 
+    //The spawner effects that the spawner will always use
+    [Tooltip("The spawner effects that the spawner will always use")]
+    public List<string> defaultSpawnerEffects = new List<string>();
+
     //The projectile effects that the spawner will always apply to the projectiles that it spawns
     [Tooltip("The projectile effects that the spawner will always apply to the projectiles that it spawns")]
     public List<string> defaultProjectileEffects = new List<string>();
@@ -45,12 +49,34 @@ public class ProjectileSpawner : MonoBehaviour
     #endregion
 
     #region Dynamically Set Vars
+    //If the spawner is firing
+    public bool isEnabled = false;
+
+    //The effects that the spawner applies to itself
+    public List<SpawnerEffect> spawnerEffects = new List<SpawnerEffect>();
+
     //The effects to apply to every projectile spawned via this spawner
     public List<ProjectileEffect> projectileEffects = new List<ProjectileEffect>();
 
     //List of available patterns to shoot bullets out via
     [Tooltip("List of available patterns to shoot bullets out via")]
     public List<ProjectilePattern> projectilePatterns = new List<ProjectilePattern>();
+    #endregion
+
+    #region Methods that ProjectileEffect can Influence
+    public delegate void UseSpawnerEffect(ProjectileSpawner spawner);
+    //updatePatternEvent is designed to notify an effect when the pattern changes, but can be used for more nefarious practices as well
+    //Recommended to check if totalPatternsUsed == 0 if your logic is for when it swaps between patterns
+    public UseSpawnerEffect onChangePatternEvents = null;
+    //postSpawnPatternBurstEvents is used to impact how the spawner behaves after launching a burst from a pattern
+    public UseSpawnerEffect postSpawnPatternBurstEvents = null;
+    //customEvents for when you want to get spicy w/ how the spawner behaves. Use at your own risk
+    //Called before the spawner checks if it can fire this frame AND before it decrements its cooldown timer
+    public UseSpawnerEffect customEvents = null;
+
+    public delegate void ModifyProjectileInstantiation(ProjectileSpawner spawner, ref Vector3 position, ref Quaternion rotation, ref float projectileSpeed, Projectile projectile);
+    //onSpawnCalculationEvents allows for projectiles to be modified before they are "shot"
+    public ModifyProjectileInstantiation onSpawnCalculationEvents = null;
     #endregion
 
     #region Private Vars
@@ -64,29 +90,218 @@ public class ProjectileSpawner : MonoBehaviour
     private int totalPatternsUsed = 0;
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        //Sets up default projectile effects
-        foreach (string _projEffectType in defaultProjectileEffects)
+        Init();
+    }
+
+    /// <summary>
+    /// Allows another object to override properties of the spawner
+    /// Steps:
+    /// 1. Removes ALL effects and patterns from the spawner. It is highly recommended to ONLY use this when first creating a spawner
+    /// 2. Adds default scriptable objects (spawner effects, projectile effects, and projectile patterns) if those bools are true
+    /// 3. Adds custom scriptable objects (same types as last step) if it can
+    /// 4. Enables all spawner effects
+    /// 5. Resets the projectile patterns
+    /// </summary>
+    public void Init(string _projType = null,
+        List<SpawnerEffect> _spawnerEffects = null, List<ProjectileEffect> _projEffects = null, List<ProjectilePattern> _projPatterns = null,
+        bool _useDefaultSpawnerEffects = true, bool _useDefaultProjEffects = true, bool _useDefaultPatterns = true)
+    {
+        //Here to prevent the spawner from ever updating while being reset
+        isEnabled = false;
+
+        #region Remove Old Effects & Patterns
+        foreach (SpawnerEffect _se in spawnerEffects)
         {
-            ProjectileEffect _effect = CachedBHEResources.instance.GetProjectileEffect(_projEffectType);
-            if (_effect != null)
+            _se.RemoveEffects(this);
+            Destroy(_se);
+        }
+        spawnerEffects.Clear();
+
+        foreach(ProjectileEffect _pe in projectileEffects)
+        {
+            Destroy(_pe);
+        }
+        projectileEffects.Clear();
+
+        foreach(ProjectilePattern _pp in projectilePatterns)
+        {
+            Destroy(_pp);
+        }
+        projectilePatterns.Clear();
+        #endregion
+
+        #region Setup Default Effects
+        //Sets up the default spawner effects
+        //These get set to permanent as they will always be applied to their spawner (some exceptions apply, but you have to make those yourself)
+        if (_useDefaultSpawnerEffects)
+        {
+            foreach (string _spawnerEffectType in defaultSpawnerEffects)
             {
-                projectileEffects.Add(_effect);
+                SpawnerEffect _sEffect = CachedBHEResources.instance.GetSpawnerEffect(_spawnerEffectType);
+                if (_sEffect != null)
+                {
+                    spawnerEffects.Add(_sEffect);
+                }
             }
         }
+
+
+        //Sets up default projectile effects
+        if (_useDefaultProjEffects)
+        {
+            foreach (string _projEffectType in defaultProjectileEffects)
+            {
+                ProjectileEffect _projEffect = CachedBHEResources.instance.GetProjectileEffect(_projEffectType);
+                if (_projEffect != null)
+                {
+                    projectileEffects.Add(_projEffect);
+                }
+            }
+        }
+
 
         //Sets up default projectile patterns
-        foreach (string _projPatternType in defaultProjectilePatterns)
+        if (_useDefaultPatterns)
         {
-            ProjectilePattern _pattern = CachedBHEResources.instance.GetProjectilePattern(_projPatternType);
-            if (_pattern != null)
+            foreach (string _projPatternType in defaultProjectilePatterns)
             {
-                projectilePatterns.Add(_pattern);
+                ProjectilePattern _pattern = CachedBHEResources.instance.GetProjectilePattern(_projPatternType);
+                if (_pattern != null)
+                {
+                    projectilePatterns.Add(_pattern);
+                }
             }
         }
+        #endregion
 
+        #region Add Custom Effects
+        if (_projType != null)
+        {
+            spawnerProjectileType = _projType;
+        }
+
+        if(_projEffects != null)
+        {
+            projectileEffects.AddRange(_projEffects);
+        }
+
+        if(_spawnerEffects != null)
+        {
+            spawnerEffects.AddRange(_spawnerEffects);
+        }
+        #endregion
+
+        #region Enable Spawner Effects
+        EnableSpawnerEffects();
+        #endregion
+
+        #region Reset Projectile Patterns
+        SetupPatterns(true);
+        #endregion
+
+        //Allows the spawner to start working again
+        isEnabled = true;
+    }
+
+    #region Enable/Disable Spawner Effects
+    private void EnableSpawnerEffects()
+    {
+        foreach(SpawnerEffect _se in spawnerEffects)
+        {
+            _se.AddEffects(this);
+        }
+    }
+
+    private void DisableSpawnerEffects()
+    {
+        foreach (SpawnerEffect _se in spawnerEffects)
+        {
+            _se.RemoveEffects(this);
+        }
+    }
+    #endregion
+
+    #region Extra Methods to Non-Destructively Add and Remove Scriptable Objects from the Spawner
+    public void AddSpawnerEffects(List<SpawnerEffect> _spawnerEffects)
+    {
+        spawnerEffects.AddRange(_spawnerEffects);
+        foreach (SpawnerEffect _se in _spawnerEffects)
+        {
+            _se.AddEffects(this);
+        }
+    }
+
+    public void RemoveSpawnerEffects(List<SpawnerEffect> _spawnerEffects)
+    {
+        foreach (SpawnerEffect _se in _spawnerEffects)
+        {
+            _se.RemoveEffects(this);
+            spawnerEffects.Remove(_se);
+        }
+    }
+
+    public void AddProjectileEffects(List<ProjectileEffect> _projectileEffects)
+    {
+        projectileEffects.AddRange(_projectileEffects);
+        foreach (ProjectileEffect _pe in _projectileEffects)
+        {
+            projectileEffects.Add(_pe);
+        }
+    }
+
+    public void RemoveProjectileEffects(List<ProjectileEffect> _projectileEffects)
+    {
+        foreach (ProjectileEffect _pe in _projectileEffects)
+        {
+            projectileEffects.Remove(_pe);
+        }
+    }
+
+    public void AddProjectilePatterns(List<ProjectilePattern> _projectilePatterns)
+    {
+        projectilePatterns.AddRange(_projectilePatterns);
+
+        //Fix Pattern Place
+        SetupPatterns(false);
+    }
+
+    public void RemoveProjectilePatterns(List<ProjectilePattern> _projectilePatterns)
+    {
+        foreach(ProjectilePattern _pp in _projectilePatterns)
+        {
+            projectilePatterns.Remove(_pp);
+        }
+
+        //Fix Pattern Place
+        SetupPatterns(false);
+    }
+    #endregion
+
+    //Applies spawner effects to the spawner
+    public void Enable(bool resetPatterns = false)
+    {
+        EnableSpawnerEffects();
+
+        SetupPatterns(resetPatterns);
+
+        isEnabled = true;
+    }
+
+    //Disables spawner effects and resets it
+    public void Disable()
+    {
+        isEnabled = false;
+
+        DisableSpawnerEffects();
+    }
+
+    //Sets up the pattern spawning related variables
+    //If resetPatterns, resets the current position in the patterns to startup
+    //If not resetPatterns, attempts to continue using the current pattern and moves on from there
+    public void SetupPatterns(bool resetPatterns = false)
+    {
         //Failure case, the spawner won't work w/o any patterns
         if (projectilePatterns.Count == 0)
         {
@@ -99,24 +314,59 @@ public class ProjectileSpawner : MonoBehaviour
         //{
         //    //cyclePatterns = true;
         //}
-        curPatternIndex = 0;
+        
 
-        //Sets the first pattern to be used
-        if (randomizePatterns)
+        if (resetPatterns)
         {
-            if(projectilePatterns.Count == 1)
+            //Sets the first pattern to be used
+            if (randomizePatterns)
             {
-                noRandomRepeats = false;
-                Debug.LogWarning($"noRandomRepeats turned off for ({name}) because there is only one pattern!");
+                if (projectilePatterns.Count == 1)
+                {
+                    noRandomRepeats = false;
+                    Debug.LogWarning($"noRandomRepeats turned off for ({name}) because there is only one pattern!");
+                }
+                curPatternIndex = Random.Range(0, projectilePatterns.Count);
+                curPattern = projectilePatterns[curPatternIndex];
             }
-            curPattern = projectilePatterns[Random.Range(0, projectilePatterns.Count)];
+            else
+            {
+                curPatternIndex = 0;
+                curPattern = projectilePatterns[0];
+            }
+
+            totalPatternsUsed = 0;
+            onChangePatternEvents?.Invoke(this);
         }
         else
         {
-            curPattern = projectilePatterns[0];
+            //Determines if the current pattern has been removed or not
+            curPatternIndex = -1;
+            for(int i = 0; i < projectilePatterns.Count; i++)
+            {
+                if(curPattern == projectilePatterns[i])
+                {
+                    curPatternIndex = i;
+                }
+            }
+
+            //If the current pattern was removed, reset the patterns, else continue checks
+            if(curPatternIndex == -1)
+            {
+                SetupPatterns(true);
+            }
+
+            if (randomizePatterns)
+            {
+                if (projectilePatterns.Count == 1)
+                {
+                    noRandomRepeats = false;
+                    Debug.LogWarning($"noRandomRepeats turned off for ({name}) because there is only one pattern!");
+                }
+            }
         }
 
-        if(patternUses == 0)
+        if (patternUses == 0)
         {
             Debug.LogWarning($"Pattern uses is set to 0 for ({name}), setting fireIndefinitely to true!");
             fireIndefinitely = true;
@@ -126,31 +376,40 @@ public class ProjectileSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Decrement cooldown timer frame independently. ALWAYS FIRST
-        cooldownTimer -= Time.deltaTime;
-
-        //TODO: Fire bullets via available rules 
-        if(cooldownTimer <= 0f)
+        if (isEnabled)
         {
-            FireCurPattern();
+            //Allows modders to be extra spicy w/ their spawner effects
+            customEvents?.Invoke(this);
 
-            if (IsCurPatternCompleted())
+            //Decrement cooldown timer frame independently. ALWAYS FIRST
+            cooldownTimer -= Time.deltaTime;
+
+            //TODO: Fire bullets via available rules 
+            if (cooldownTimer <= 0f)
             {
-                //if ((cyclePatterns && !AttemptSwapPattern()) || !cyclePatterns)
-                //{
-                //    //TODO: Destroy? spawner
-                //    Destroy(gameObject);
-                //}
-                if (!AttemptSwapPattern())
+                FireCurPatternBurst();
+
+                postSpawnPatternBurstEvents?.Invoke(this);
+
+                if (IsCurPatternCompleted())
                 {
-                    //TODO: Something about stop on completion? idk yet
-                    Destroy(gameObject);
+                    //if ((cyclePatterns && !AttemptSwapPattern()) || !cyclePatterns)
+                    //{
+                    //    //TODO: Destroy? spawner
+                    //    Destroy(gameObject);
+                    //}
+                    if (!AttemptSwapPattern())
+                    {
+                        //If the spawner runs out of patterns it's allowed to use it disables itself
+                        Disable();
+                    }
                 }
             }
         }
     }
 
-    private void FireCurPattern()
+    //Fires one "Burst" from the current pattern
+    private void FireCurPatternBurst()
     {
         //I might have some form of "failed to shoot" which I'd put either here or above, which could skip some things
 
@@ -274,6 +533,7 @@ public class ProjectileSpawner : MonoBehaviour
             curPattern = projectilePatterns[curPatternIndex];
             timesSpawned = 0;
             totalPatternsUsed++;
+            onChangePatternEvents?.Invoke(this);
             return true;
         }
         else
@@ -299,6 +559,7 @@ public class ProjectileSpawner : MonoBehaviour
 
             timesSpawned = 0;
             totalPatternsUsed++;
+            onChangePatternEvents?.Invoke(this);
             return true;
         }
     }
@@ -308,11 +569,18 @@ public class ProjectileSpawner : MonoBehaviour
         //Gets a projectile component attatched to a GameObject
         Projectile projectile = ProjectileManager.instance.GetProjectile(_spawnerProjectileType);
 
+        //Creates mutable variables for spawner effects to mess with
+        Vector3 _position = transform.position;
+        float _damage = 0f;
+
+        //Enables spawner effects to mess with the spawning of projectiles
+        onSpawnCalculationEvents?.Invoke(this, ref _position, ref _rotation, ref _projectileSpeed, projectile);
+
         //Sets up the position and rotation of projectiles in a way that avoids obvious snapping
-        projectile.transform.SetPositionAndRotation(transform.position, _rotation);
+        projectile.transform.SetPositionAndRotation(_position, _rotation);
 
         //Apply effects attatched to the spawner to the projectile
-        projectile.HijackProjectile(projectileEffects, 0f, 2f);
+        projectile.HijackProjectile(projectileEffects, _damage, _projectileSpeed);
 
         //Shoot the projectile
         projectile.Initialize();
