@@ -278,12 +278,13 @@ MonoBehaviour:
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
-  stopOnCompletion: 0
   noRandomRepeats: 0
+  destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  TESTVAR: 0
 --- !u!4 &282895546
 Transform:
   m_ObjectHideFlags: 0
@@ -459,12 +460,13 @@ MonoBehaviour:
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 1
-  stopOnCompletion: 0
   noRandomRepeats: 1
+  destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  TESTVAR: 0
 --- !u!4 &860002864
 Transform:
   m_ObjectHideFlags: 0
@@ -533,12 +535,13 @@ MonoBehaviour:
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
-  stopOnCompletion: 0
   noRandomRepeats: 0
+  destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  TESTVAR: 0
 --- !u!1 &1461215322
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,20 +730,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerProjectileType: Slow_Projectile
-  defaultSpawnerEffects: []
+  defaultSpawnerEffects:
+  - Base_Spawner_Info
+  - Rotate_45_Per_Sec
   defaultProjectileEffects:
   - Test_Default_Effects
+  - Test_Create_Spawner_On_Death
+  - Test_Sine_Effect
   defaultProjectilePatterns:
   - Slow_Test_Pattern
-  fireIndefinitely: 1
-  patternUses: 0
+  fireIndefinitely: 0
+  patternUses: 2
   randomizePatterns: 0
-  stopOnCompletion: 1
   noRandomRepeats: 0
+  destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  TESTVAR: 1
 --- !u!4 &1584469941
 Transform:
   m_ObjectHideFlags: 0
@@ -923,9 +931,12 @@ MonoBehaviour:
   baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
   editorSpawnerEffectScripObjs:
   - {fileID: 11400000, guid: a258a678f10264645aa24eb510a6f0fd, type: 2}
+  - {fileID: 11400000, guid: d8fde22722f3e2847abafca9c00eb94d, type: 2}
   editorProjectileEffectScripObjs:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
+  - {fileID: 11400000, guid: aac2005d9b504494591e5fa6db1863a3, type: 2}
+  - {fileID: 11400000, guid: 693ba71dbf7cf3c498afd371a42a370f, type: 2}
   editorProjectilePatternScripObjs:
   - {fileID: 11400000, guid: 7de67f89e6adf4c428eedb6ec735207c, type: 2}
   - {fileID: 11400000, guid: ebd899040fcdf874ab51220553a9e14f, type: 2}
@@ -947,3 +958,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &9136302316373227860
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935056583405904815, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
+      propertyPath: m_Name
+      value: Test Spawner
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}

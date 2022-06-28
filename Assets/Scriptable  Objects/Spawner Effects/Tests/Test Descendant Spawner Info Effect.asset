@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dec5445a662a4849accabc59ae9cf69, type: 3}
-  m_Name: Test Sine Effect
+  m_Script: {fileID: 11500000, guid: 03d9d2b9e680dba4b9a8d526668967e1, type: 3}
+  m_Name: Test Descendant Spawner Info Effect
   m_EditorClassIdentifier: 
-  projectileEffectType: Sine_Effect
-  projectileEffectName: Test_Sine_Effect
-  isPermanent: 0
+  spawnerEffectType: Base_Spawner_Info
+  spawnerEffectName: Base_Spawner_Info
   generationsToInheritEffect: -1
-  frequency: 20
-  magnitude: 45
+  descendantProjectileInfo: {fileID: 0}

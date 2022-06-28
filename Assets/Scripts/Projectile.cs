@@ -80,9 +80,10 @@ public class Projectile : MonoBehaviour
     {
         foreach(ProjectileEffect pe in projEffects)
         {
-            ProjectileEffect clone = Instantiate(pe);
-            clone.Init();
-            projectileEffects.Add(clone);
+            ProjectileEffect newProjectileEffect = CachedBHEResources.instance.GetProjectileEffect(pe.projectileEffectName);
+            newProjectileEffect.Copy(pe);
+
+            projectileEffects.Add(newProjectileEffect);
         }
 
         damage = _damage;
@@ -105,6 +106,12 @@ public class Projectile : MonoBehaviour
         foreach(ProjectileEffect pe in projectileEffects)
         {
             pe.AddEffects(this);
+        }
+
+        //Add late projectile effects
+        foreach(ProjectileEffect pe in projectileEffects)
+        {
+            pe.LateAddEffects(this);
         }
     }
 
@@ -131,6 +138,27 @@ public class Projectile : MonoBehaviour
 
         //Readies the projectile for re-use
         ProjectileManager.instance.DeactivateProjectile(this);
+    }
+
+    public void AddEffects(List<ProjectileEffect> projectileEffects)
+    {
+        //TODO: Implement
+        int oldCount = projectileEffects.Count;
+
+        foreach(ProjectileEffect pe in projectileEffects)
+        {
+            ProjectileEffect newEffect = CachedBHEResources.instance.GetProjectileEffect(pe.projectileEffectName);
+            newEffect.Copy(pe);
+
+            projectileEffects.Add(newEffect);
+
+            //TODO: Add handling for Lasers
+        }
+
+        for(int i = 0; i < oldCount; i++)
+        {
+            projectileEffects[i].UpdateEffects(this);
+        }
     }
 
     private void FixedUpdate()

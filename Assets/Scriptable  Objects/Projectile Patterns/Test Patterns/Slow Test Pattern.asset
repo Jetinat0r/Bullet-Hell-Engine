@@ -15,10 +15,10 @@ MonoBehaviour:
   patternType: Slow_Test_Pattern
   useSpawnerRotation: 1
   minAngle: 0
-  maxAngle: 360
-  spreadType: 0
+  maxAngle: 0
+  spreadType: 1
   numProjectiles: 1
   projectileRotations: []
-  numSpawns: 10
+  numSpawns: 1
   projectileSpeed: 2
   shotCooldown: 10

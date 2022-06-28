@@ -178,25 +178,27 @@ public class CachedBHEResources : MonoBehaviour
     //Adds a projectile effect to the list of available effects to copy. Generation of mod effects will occur elsewhere, perhaps TODO: in a [modname].cs file
     public void GenerateProjectileEffectPrefab(ProjectileEffect _effect)
     {
-        if (projectileEffects.ContainsKey(_effect.projectileEffectType))
+        if (projectileEffects.ContainsKey(_effect.projectileEffectName))
         {
-            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.projectileEffectType}) already exists!");
+            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.projectileEffectName}) already exists!");
             return;
         }
 
-        Debug.Log($"Created projectile effect ({_effect.projectileEffectType})");
-        projectileEffects.Add(_effect.projectileEffectType, _effect);
+        Debug.Log($"Created projectile effect ({_effect.projectileEffectName})");
+        projectileEffects.Add(_effect.projectileEffectName, _effect);
     }
 
     //Returns a new copy of the desired projectile effect
-    public ProjectileEffect GetProjectileEffect(string _effectType)
+    public ProjectileEffect GetProjectileEffect(string _effectName)
     {
-        if(projectileEffects.TryGetValue(_effectType, out ProjectileEffect _projectileEffect))
+        if(projectileEffects.TryGetValue(_effectName, out ProjectileEffect _projectileEffect))
         {
-            return Instantiate(_projectileEffect);
+            ProjectileEffect _newEffect = Instantiate(_projectileEffect);
+            _newEffect.Init();
+            return _newEffect;
         }
 
-        Debug.LogError($"Projectile Effect of type ({_effectType}) does not exist!");
+        Debug.LogError($"Projectile Effect of setup ({_effectName}) does not exist!");
         return null;
     }
     #endregion
@@ -205,27 +207,27 @@ public class CachedBHEResources : MonoBehaviour
     //Adds a spawner effect to the list of available effects to copy. Generation of mod effects will occur elsewhere, perhaps TODO: in a [modname].cs file
     public void GenerateSpawnerEffectPrefab(SpawnerEffect _effect)
     {
-        if (spawnerEffects.ContainsKey(_effect.spawnerEffectType))
+        if (spawnerEffects.ContainsKey(_effect.spawnerEffectName))
         {
-            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.spawnerEffectType}) already exists!");
+            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.spawnerEffectName}) already exists!");
             return;
         }
 
-        Debug.Log($"Created spawner effect ({_effect.spawnerEffectType})");
-        spawnerEffects.Add(_effect.spawnerEffectType, _effect);
+        Debug.Log($"Created spawner effect ({_effect.spawnerEffectName})");
+        spawnerEffects.Add(_effect.spawnerEffectName, _effect);
     }
 
     //Returns a new copy of the desired spawner effect
-    public SpawnerEffect GetSpawnerEffect(string _effectType)
+    public SpawnerEffect GetSpawnerEffect(string _effectName)
     {
-        if (spawnerEffects.TryGetValue(_effectType, out SpawnerEffect _effect))
+        if (spawnerEffects.TryGetValue(_effectName, out SpawnerEffect _effect))
         {
             SpawnerEffect _newEffect = Instantiate(_effect);
             _newEffect.Init();
             return _newEffect;
         }
 
-        Debug.LogError($"Projectile Effect of type ({_effectType}) does not exist!");
+        Debug.LogError($"Projectile Effect of setup ({_effectName}) does not exist!");
         return null;
     }
     #endregion

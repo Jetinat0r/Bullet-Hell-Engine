@@ -39,13 +39,16 @@ public class ProjectileSpawner : MonoBehaviour
     [Tooltip("Decides if the pojectile pattern used should be random or not")]
     public bool randomizePatterns = false;
 
-    //Determines if the spawner should stop shooting after running through each of its patterns. Only used if randomizePatterns is false
-    [Tooltip("Determines if the spawner should stop shooting after running through each of its patterns. Only used if randomizePatterns is false")]
-    public bool stopOnCompletion = true;
+    //Determines if the spawner should stop shooting after running through each of its patterns. Only used if randomizePatterns and fireIndefinitely are false
+    [Tooltip("Determines if the spawner should loop through its patterns after after exhausting them. Only used if randomizePatterns and fireIndefinitely are false")]
+    public bool loopPatterns = true;
 
     //Decides if the the randomized patterns should be able to use the same pattern twice in a row or not. Only used if randomizePatterns is true
     [Tooltip("Decides if the the randomized patterns should be able to use the same pattern twice in a row or not. Only used if randomizePatterns is true")]
     public bool noRandomRepeats = false;
+
+    //Whether or not the spawner should destroy it's gameobject upon disable, usually for destroying when the pattern completes
+    public bool destroyOnDisable = false;
     #endregion
 
     #region Dynamically Set Vars
@@ -74,6 +77,9 @@ public class ProjectileSpawner : MonoBehaviour
     //Called before the spawner checks if it can fire this frame AND before it decrements its cooldown timer
     public UseSpawnerEffect customEvents = null;
 
+    public delegate void ModifyPatternData(ProjectileSpawner spawner, ref ProjectilePattern patternCopy);
+    public ModifyPatternData hijackPatternDataEvents = null;
+
     public delegate void ModifyProjectileInstantiation(ProjectileSpawner spawner, ref Vector3 position, ref Quaternion rotation, ref float projectileSpeed, Projectile projectile);
     //onSpawnCalculationEvents allows for projectiles to be modified before they are "shot"
     public ModifyProjectileInstantiation onSpawnCalculationEvents = null;
@@ -90,9 +96,15 @@ public class ProjectileSpawner : MonoBehaviour
     private int totalPatternsUsed = 0;
     #endregion
 
+    //TODO: Remove TestVar
+    public bool TESTVAR = false;
     private void Start()
     {
-        Init();
+        if (TESTVAR)
+        {
+            Init();
+
+        }
     }
 
     /// <summary>
@@ -104,13 +116,14 @@ public class ProjectileSpawner : MonoBehaviour
     /// 4. Enables all spawner effects
     /// 5. Resets the projectile patterns
     /// </summary>
-    public void Init(string _projType = null,
+    public void Init(string _projType = null, bool _enableAfterInit = true, bool? _destroyOnDisable = null,
         List<SpawnerEffect> _spawnerEffects = null, List<ProjectileEffect> _projEffects = null, List<ProjectilePattern> _projPatterns = null,
         bool _useDefaultSpawnerEffects = true, bool _useDefaultProjEffects = true, bool _useDefaultPatterns = true)
     {
         //Here to prevent the spawner from ever updating while being reset
         isEnabled = false;
 
+        //TODO: RE-add to cache
         #region Remove Old Effects & Patterns
         foreach (SpawnerEffect _se in spawnerEffects)
         {
@@ -184,12 +197,12 @@ public class ProjectileSpawner : MonoBehaviour
 
         if(_projEffects != null)
         {
-            projectileEffects.AddRange(_projEffects);
+            AddProjectileEffects(_projEffects);
         }
 
         if(_spawnerEffects != null)
         {
-            spawnerEffects.AddRange(_spawnerEffects);
+            AddSpawnerEffects(_spawnerEffects);
         }
         #endregion
 
@@ -201,8 +214,23 @@ public class ProjectileSpawner : MonoBehaviour
         SetupPatterns(true);
         #endregion
 
-        //Allows the spawner to start working again
-        isEnabled = true;
+        //Add late spawner effects
+        foreach(SpawnerEffect se in spawnerEffects)
+        {
+            se.LateAddEffects(this);
+        }
+
+        //For if someone wants to conveniently change destroyOnEnable
+        if(_destroyOnDisable != null)
+        {
+            destroyOnDisable = (bool)_destroyOnDisable;
+        }
+
+        if (_enableAfterInit)
+        {
+            //Allows the spawner to start working again
+            isEnabled = true;
+        }
     }
 
     #region Enable/Disable Spawner Effects
@@ -226,28 +254,52 @@ public class ProjectileSpawner : MonoBehaviour
     #region Extra Methods to Non-Destructively Add and Remove Scriptable Objects from the Spawner
     public void AddSpawnerEffects(List<SpawnerEffect> _spawnerEffects)
     {
-        spawnerEffects.AddRange(_spawnerEffects);
-        foreach (SpawnerEffect _se in _spawnerEffects)
+        int countBefore = spawnerEffects.Count;
+
+        foreach(SpawnerEffect _se in _spawnerEffects)
         {
-            _se.AddEffects(this);
+            SpawnerEffect newSpawnerEffect = CachedBHEResources.instance.GetSpawnerEffect(_se.spawnerEffectName);
+            spawnerEffects.Add(newSpawnerEffect);
+
+            newSpawnerEffect.generationsToInheritEffect = _se.generationsToInheritEffect;
+
+            newSpawnerEffect.AddEffects(this);
+        }
+
+        //Do late add for the new effects
+        for(int i = countBefore; i < spawnerEffects.Count; i++)
+        {
+            spawnerEffects[i].LateAddEffects(this);
+        }
+
+        //Update the old effects
+        for(int i = 0; i < countBefore; i++)
+        {
+            spawnerEffects[i].UpdateEffects(this);
         }
     }
 
+    //Intended as: nabbed from the spawner, then used to remove them
+    //i.e. an Effect grabs spawnerEffects, pulls out [0] and calls RemoveSpawnerEffects for that effect
     public void RemoveSpawnerEffects(List<SpawnerEffect> _spawnerEffects)
     {
         foreach (SpawnerEffect _se in _spawnerEffects)
         {
             _se.RemoveEffects(this);
             spawnerEffects.Remove(_se);
+            //TODO: Add back to pool
         }
     }
 
     public void AddProjectileEffects(List<ProjectileEffect> _projectileEffects)
     {
-        projectileEffects.AddRange(_projectileEffects);
         foreach (ProjectileEffect _pe in _projectileEffects)
         {
-            projectileEffects.Add(_pe);
+            ProjectileEffect newProjectileEffect = CachedBHEResources.instance.GetProjectileEffect(_pe.projectileEffectName);
+
+            newProjectileEffect.generationsToInheritEffect = _pe.generationsToInheritEffect;
+
+            projectileEffects.Add(newProjectileEffect);
         }
     }
 
@@ -256,6 +308,7 @@ public class ProjectileSpawner : MonoBehaviour
         foreach (ProjectileEffect _pe in _projectileEffects)
         {
             projectileEffects.Remove(_pe);
+            //TODO: Add back to pool
         }
     }
 
@@ -295,6 +348,12 @@ public class ProjectileSpawner : MonoBehaviour
         isEnabled = false;
 
         DisableSpawnerEffects();
+
+        if (destroyOnDisable)
+        {
+            //TODO: Return stuff to caches
+            Destroy(gameObject);
+        }
     }
 
     //Sets up the pattern spawning related variables
@@ -384,7 +443,6 @@ public class ProjectileSpawner : MonoBehaviour
             //Decrement cooldown timer frame independently. ALWAYS FIRST
             cooldownTimer -= Time.deltaTime;
 
-            //TODO: Fire bullets via available rules 
             if (cooldownTimer <= 0f)
             {
                 FireCurPatternBurst();
@@ -393,11 +451,6 @@ public class ProjectileSpawner : MonoBehaviour
 
                 if (IsCurPatternCompleted())
                 {
-                    //if ((cyclePatterns && !AttemptSwapPattern()) || !cyclePatterns)
-                    //{
-                    //    //TODO: Destroy? spawner
-                    //    Destroy(gameObject);
-                    //}
                     if (!AttemptSwapPattern())
                     {
                         //If the spawner runs out of patterns it's allowed to use it disables itself
@@ -415,7 +468,7 @@ public class ProjectileSpawner : MonoBehaviour
 
 
         ProjectilePattern curPatternData = Instantiate(curPattern);
-        //TODO: HijackCurPatternData()
+        hijackPatternDataEvents?.Invoke(this, ref curPatternData);
 
         //Here bc switch statements are weird
         Vector3 spawnerRotation;
@@ -498,14 +551,15 @@ public class ProjectileSpawner : MonoBehaviour
 
     private bool IsCurPatternCompleted()
     {
-        return timesSpawned == curPattern.numSpawns;
+        return timesSpawned >= curPattern.numSpawns;
     }
 
     //If the pattern can be swapped, do so and return true, else return false
     private bool AttemptSwapPattern()
     {
-        //Debug.Log($"Using pattern {curPattern.name}");
-        if(!fireIndefinitely && totalPatternsUsed == patternUses)
+        totalPatternsUsed++;
+
+        if(!fireIndefinitely && totalPatternsUsed >= patternUses)
         {
             return false;
         }
@@ -532,7 +586,7 @@ public class ProjectileSpawner : MonoBehaviour
 
             curPattern = projectilePatterns[curPatternIndex];
             timesSpawned = 0;
-            totalPatternsUsed++;
+            //totalPatternsUsed++;
             onChangePatternEvents?.Invoke(this);
             return true;
         }
@@ -542,7 +596,7 @@ public class ProjectileSpawner : MonoBehaviour
             curPatternIndex += 1;
             if(curPatternIndex == projectilePatterns.Count)
             {
-                if (fireIndefinitely)
+                if (fireIndefinitely || loopPatterns)
                 {
                     curPatternIndex = 0;
                     curPattern = projectilePatterns[0];
@@ -558,7 +612,7 @@ public class ProjectileSpawner : MonoBehaviour
             }
 
             timesSpawned = 0;
-            totalPatternsUsed++;
+            //totalPatternsUsed++;
             onChangePatternEvents?.Invoke(this);
             return true;
         }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0e0dfd1b612024c8bbe2f587c8276d, type: 3}
   m_Name: Test Default Effects
   m_EditorClassIdentifier: 
-  projectileEffectType: Test_Default_Effects
+  projectileEffectType: Default_Effects
+  projectileEffectName: Test_Default_Effects
   isPermanent: 0
   generationsToInheritEffect: -1
-  lifetime: 10
+  lifetime: 2

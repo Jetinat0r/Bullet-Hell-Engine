@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4314d64d9eaca4b93b64c04397bef2, type: 3}
   m_Name: Rotate45PerSec
   m_EditorClassIdentifier: 
-  spawnerEffectType: Rotate_45_Per_Sec
+  spawnerEffectType: Rotate_Spawner
+  spawnerEffectName: Rotate_45_Per_Sec
   generationsToInheritEffect: -1
   rotationSpeed: 45
