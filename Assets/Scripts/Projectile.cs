@@ -80,7 +80,7 @@ public class Projectile : MonoBehaviour
     {
         foreach(ProjectileEffect pe in projEffects)
         {
-            ProjectileEffect newProjectileEffect = CachedBHEResources.instance.GetProjectileEffect(pe.projectileEffectName);
+            ProjectileEffect newProjectileEffect = EffectManager.instance.GetProjectileEffect(pe.projectileEffectName);
             newProjectileEffect.Copy(pe);
 
             projectileEffects.Add(newProjectileEffect);
@@ -134,6 +134,7 @@ public class Projectile : MonoBehaviour
         foreach(ProjectileEffect pe in toRemove)
         {
             projectileEffects.Remove(pe);
+            EffectManager.instance.DeactivateProjectileEffect(pe);
         }
 
         //Readies the projectile for re-use
@@ -142,12 +143,11 @@ public class Projectile : MonoBehaviour
 
     public void AddEffects(List<ProjectileEffect> projectileEffects)
     {
-        //TODO: Implement
         int oldCount = projectileEffects.Count;
 
         foreach(ProjectileEffect pe in projectileEffects)
         {
-            ProjectileEffect newEffect = CachedBHEResources.instance.GetProjectileEffect(pe.projectileEffectName);
+            ProjectileEffect newEffect = EffectManager.instance.GetProjectileEffect(pe.projectileEffectName);
             newEffect.Copy(pe);
 
             projectileEffects.Add(newEffect);

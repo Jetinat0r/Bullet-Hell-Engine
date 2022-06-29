@@ -218,7 +218,7 @@ RectTransform:
   m_Children:
   - {fileID: 1626202251}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -278,13 +278,14 @@ MonoBehaviour:
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
+  loopPatterns: 1
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  TESTVAR: 0
+  TESTVAR: 1
 --- !u!4 &282895546
 Transform:
   m_ObjectHideFlags: 0
@@ -300,7 +301,7 @@ Transform:
   - {fileID: 860002864}
   - {fileID: 1256282484}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -420,6 +421,50 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &774635037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774635039}
+  - component: {fileID: 774635038}
+  m_Layer: 0
+  m_Name: Effect Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &774635038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774635037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d617ec5070eea64dae493c70162482a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &774635039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774635037}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.379494, y: 1.9260685, z: -159.78828}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &860002862
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,13 +505,14 @@ MonoBehaviour:
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 1
+  loopPatterns: 1
   noRandomRepeats: 1
   destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  TESTVAR: 0
+  TESTVAR: 1
 --- !u!4 &860002864
 Transform:
   m_ObjectHideFlags: 0
@@ -535,13 +581,14 @@ MonoBehaviour:
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
+  loopPatterns: 1
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  TESTVAR: 0
+  TESTVAR: 1
 --- !u!1 &1461215322
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +619,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1461215324
 MonoBehaviour:
@@ -652,7 +699,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1561151715
 GameObject:
@@ -698,7 +745,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584469939
 GameObject:
@@ -736,12 +783,12 @@ MonoBehaviour:
   defaultProjectileEffects:
   - Test_Default_Effects
   - Test_Create_Spawner_On_Death
-  - Test_Sine_Effect
   defaultProjectilePatterns:
   - Slow_Test_Pattern
   fireIndefinitely: 0
-  patternUses: 2
+  patternUses: 1
   randomizePatterns: 0
+  loopPatterns: 1
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
@@ -762,7 +809,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1626202250
 GameObject:
@@ -931,7 +978,7 @@ MonoBehaviour:
   baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
   editorSpawnerEffectScripObjs:
   - {fileID: 11400000, guid: a258a678f10264645aa24eb510a6f0fd, type: 2}
-  - {fileID: 11400000, guid: d8fde22722f3e2847abafca9c00eb94d, type: 2}
+  - {fileID: 11400000, guid: a59c47c475bc4594b8cd95fa04afbcce, type: 2}
   editorProjectileEffectScripObjs:
   - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
   - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
@@ -956,7 +1003,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &9136302316373227860
 PrefabInstance:
@@ -967,7 +1014,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5360659941512772344, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
       propertyPath: m_LocalPosition.x

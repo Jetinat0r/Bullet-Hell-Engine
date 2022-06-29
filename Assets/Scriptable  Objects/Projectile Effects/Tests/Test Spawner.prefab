@@ -52,6 +52,7 @@ MonoBehaviour:
   fireIndefinitely: 0
   patternUses: 2
   randomizePatterns: 0
+  loopPatterns: 1
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0

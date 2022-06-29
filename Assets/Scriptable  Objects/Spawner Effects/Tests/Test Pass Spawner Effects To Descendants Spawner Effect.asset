@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8865a86e8097eab4888963e58242702b, type: 3}
-  m_Name: Descendant Projectile Info Effect
+  m_Script: {fileID: 11500000, guid: 4f3f3c74feb810c469ab63635a50635b, type: 3}
+  m_Name: Test Pass Spawner Effects To Descendants Spawner Effect
   m_EditorClassIdentifier: 
-  projectileEffectType: Spawner_Info
-  projectileEffectName: Spawner_Info
-  isPermanent: 0
+  spawnerEffectType: Pass_Spawner_Effects_To_Descendants
+  spawnerEffectName: Pass_Spawner_Effects_To_Descendants
   generationsToInheritEffect: -1
-  spawnerEffects: []
+  descendantProjectileInfo: {fileID: 0}

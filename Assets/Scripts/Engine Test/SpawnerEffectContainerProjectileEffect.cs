@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Descendant Projectile Info Effect", menuName = "ScriptableObjects/Projectile Effects/Descendant Projectile Info Effect")]
-public class DescendantProjectileInfo : ProjectileEffect
+//This Projectile Effect is a container for its parent spawner effects
+[CreateAssetMenu(fileName = "New Spawner Effect Container Projectile Effect", menuName = "ScriptableObjects/Projectile Effects/Spawner Effect Container")]
+public class SpawnerEffectContainerProjectileEffect : ProjectileEffect
 {
     //The name of the type of this specific effect
-    public static string TYPE = "Spawner_Info";
+    public static string TYPE = "Spawner_Effect_Container_Projectile_Effect";
 
     //This object is designed purely to hold data for things that need it, and as such will only be generated when needed
     public List<SpawnerEffect> spawnerEffects;
@@ -23,13 +24,24 @@ public class DescendantProjectileInfo : ProjectileEffect
         //Here jic Awake fails to set it
         projectileEffectType = TYPE;
 
+        //If there is spawner effects, they need returned to the cache before we can use the list again
+        //Don't need to remove them since that happens right after
+        if (spawnerEffects != null && spawnerEffects.Count != 0)
+        {
+            foreach (SpawnerEffect se in spawnerEffects)
+            {
+                EffectManager.instance.DeactivateSpawnerEffect(se);
+            }
+        }
+
+
         spawnerEffects = new List<SpawnerEffect>();
         hasAppliedEffects = false;
     }
 
     public override void Copy(ProjectileEffect oldEffect)
     {
-        DescendantProjectileInfo oE = (DescendantProjectileInfo)oldEffect;
+        SpawnerEffectContainerProjectileEffect oE = (SpawnerEffectContainerProjectileEffect)oldEffect;
         spawnerEffects = oE.spawnerEffects;
 
         base.Copy(oldEffect);

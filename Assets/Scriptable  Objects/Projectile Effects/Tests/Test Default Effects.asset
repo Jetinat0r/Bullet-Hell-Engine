@@ -16,4 +16,4 @@ MonoBehaviour:
   projectileEffectName: Test_Default_Effects
   isPermanent: 0
   generationsToInheritEffect: -1
-  lifetime: 2
+  lifetime: 10

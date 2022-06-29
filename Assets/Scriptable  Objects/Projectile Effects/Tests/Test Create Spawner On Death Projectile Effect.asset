@@ -15,6 +15,6 @@ MonoBehaviour:
   projectileEffectType: Create_Spawner_On_Death
   projectileEffectName: Test_Create_Spawner_On_Death
   isPermanent: 0
-  generationsToInheritEffect: 1
+  generationsToInheritEffect: 3
   SpawnerPrefab: {fileID: 400110858497591409, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
   spawnerEffects: []

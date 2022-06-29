@@ -49,15 +49,15 @@ public class CreateSpawnerOnDeathProjectileEffect : ProjectileEffect
         {
             foreach (ProjectileEffect effect in projectile.projectileEffects)
             {
-                //If there is a DescendantProjectileInfo SpawnerEffect available on the projectile, grab it's 
-                if (effect.projectileEffectType == DescendantProjectileInfo.TYPE)
+                //If there is a SpawnerEffectContainerProjectileEffect available on the projectile, grab it's spawner effects
+                if (effect.projectileEffectType == SpawnerEffectContainerProjectileEffect.TYPE)
                 {
-                    DescendantProjectileInfo spawnerInfo = effect as DescendantProjectileInfo;
+                    SpawnerEffectContainerProjectileEffect spawnerInfo = effect as SpawnerEffectContainerProjectileEffect;
 
                     spawnerEffects = new List<SpawnerEffect>();
                     foreach (SpawnerEffect se in spawnerInfo.spawnerEffects)
                     {
-                        SpawnerEffect newSpawnerEffect = CachedBHEResources.instance.GetSpawnerEffect(se.spawnerEffectName);
+                        SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(se.spawnerEffectName);
                         newSpawnerEffect.Copy(se);
                         spawnerEffects.Add(newSpawnerEffect);
                     }
@@ -80,7 +80,6 @@ public class CreateSpawnerOnDeathProjectileEffect : ProjectileEffect
         //Debug.Log("Removing Effects");
         
         projectile.onDeathEvents -= CreateSpawner;
-        //TODO: Maybe send the component back to a pool? Let's see if it's necessary first (NO, DO IN WHAT HOLDS THE EFFECTS)
     }
 
     //TODO: figure this out lol I really want lasers
@@ -104,7 +103,7 @@ public class CreateSpawnerOnDeathProjectileEffect : ProjectileEffect
             {
                 if(se.generationsToInheritEffect != 0)
                 {
-                    SpawnerEffect newSpawnerEffect = CachedBHEResources.instance.GetSpawnerEffect(se.spawnerEffectName);
+                    SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(se.spawnerEffectName);
                     newSpawnerEffect.Copy(se);
                     newSpawnerEffect.generationsToInheritEffect--;
 
@@ -119,7 +118,7 @@ public class CreateSpawnerOnDeathProjectileEffect : ProjectileEffect
         {
             if(pe.generationsToInheritEffect != 0)
             {
-                ProjectileEffect newProjEffect = CachedBHEResources.instance.GetProjectileEffect(pe.projectileEffectName);
+                ProjectileEffect newProjEffect = EffectManager.instance.GetProjectileEffect(pe.projectileEffectName);
                 newProjEffect.Copy(pe);
                 newProjEffect.generationsToInheritEffect--;
 

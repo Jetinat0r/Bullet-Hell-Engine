@@ -92,8 +92,6 @@ public class ProjectileEffect : ScriptableObject
 
         //Remove Effects
         //Debug.Log("Removing Effects");
-
-        //TODO: Maybe send the component back to a pool? Let's see if it's necessary first
     }
 
     //TODO: figure this out lol I really want lasers

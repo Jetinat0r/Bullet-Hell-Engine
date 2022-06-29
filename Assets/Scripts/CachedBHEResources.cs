@@ -189,7 +189,7 @@ public class CachedBHEResources : MonoBehaviour
     }
 
     //Returns a new copy of the desired projectile effect
-    public ProjectileEffect GetProjectileEffect(string _effectName)
+    public ProjectileEffect InstantiateProjectileEffect(string _effectName)
     {
         if(projectileEffects.TryGetValue(_effectName, out ProjectileEffect _projectileEffect))
         {
@@ -218,7 +218,7 @@ public class CachedBHEResources : MonoBehaviour
     }
 
     //Returns a new copy of the desired spawner effect
-    public SpawnerEffect GetSpawnerEffect(string _effectName)
+    public SpawnerEffect InstantiateSpawnerEffect(string _effectName)
     {
         if (spawnerEffects.TryGetValue(_effectName, out SpawnerEffect _effect))
         {

@@ -15,9 +15,9 @@ MonoBehaviour:
   patternType: Burst_Test_Pattern
   useSpawnerRotation: 1
   minAngle: 0
-  maxAngle: 360
-  spreadType: 0
-  numProjectiles: 15
+  maxAngle: 0
+  spreadType: 1
+  numProjectiles: 4
   projectileRotations: []
   numSpawns: 0
   projectileSpeed: 2

@@ -106,7 +106,6 @@ public class ProjectileManager : MonoBehaviour
     }
 
     //Moves a projectile from the activeProjectiles dictionary to the inactiveProjectiles dictionary and sets "isActive" to false
-    //TODO: Maybe call "ClearEffects?" maybe have that handle permanent effects and non-permanent ones?
     public void DeactivateProjectile(Projectile projectile)
     {
         //Ensures that there is a list in inactiveProjectiles to receive the given projectile

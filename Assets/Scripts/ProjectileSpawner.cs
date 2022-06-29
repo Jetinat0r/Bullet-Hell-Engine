@@ -123,21 +123,15 @@ public class ProjectileSpawner : MonoBehaviour
         //Here to prevent the spawner from ever updating while being reset
         isEnabled = false;
 
-        //TODO: RE-add to cache
         #region Remove Old Effects & Patterns
-        foreach (SpawnerEffect _se in spawnerEffects)
-        {
-            _se.RemoveEffects(this);
-            Destroy(_se);
-        }
+        RemoveSpawnerEffects(new List<SpawnerEffect>(spawnerEffects));
+
         spawnerEffects.Clear();
 
-        foreach(ProjectileEffect _pe in projectileEffects)
-        {
-            Destroy(_pe);
-        }
+        RemoveProjectileEffects(new List<ProjectileEffect>(projectileEffects));
         projectileEffects.Clear();
 
+        //TODO: Re-strucure ProjectilePatterns so that all spawners do is reference prefabs located in CachedBHEResources
         foreach(ProjectilePattern _pp in projectilePatterns)
         {
             Destroy(_pp);
@@ -152,7 +146,7 @@ public class ProjectileSpawner : MonoBehaviour
         {
             foreach (string _spawnerEffectType in defaultSpawnerEffects)
             {
-                SpawnerEffect _sEffect = CachedBHEResources.instance.GetSpawnerEffect(_spawnerEffectType);
+                SpawnerEffect _sEffect = EffectManager.instance.GetSpawnerEffect(_spawnerEffectType);
                 if (_sEffect != null)
                 {
                     spawnerEffects.Add(_sEffect);
@@ -166,7 +160,7 @@ public class ProjectileSpawner : MonoBehaviour
         {
             foreach (string _projEffectType in defaultProjectileEffects)
             {
-                ProjectileEffect _projEffect = CachedBHEResources.instance.GetProjectileEffect(_projEffectType);
+                ProjectileEffect _projEffect = EffectManager.instance.GetProjectileEffect(_projEffectType);
                 if (_projEffect != null)
                 {
                     projectileEffects.Add(_projEffect);
@@ -258,7 +252,7 @@ public class ProjectileSpawner : MonoBehaviour
 
         foreach(SpawnerEffect _se in _spawnerEffects)
         {
-            SpawnerEffect newSpawnerEffect = CachedBHEResources.instance.GetSpawnerEffect(_se.spawnerEffectName);
+            SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(_se.spawnerEffectName);
             spawnerEffects.Add(newSpawnerEffect);
 
             newSpawnerEffect.generationsToInheritEffect = _se.generationsToInheritEffect;
@@ -287,7 +281,9 @@ public class ProjectileSpawner : MonoBehaviour
         {
             _se.RemoveEffects(this);
             spawnerEffects.Remove(_se);
-            //TODO: Add back to pool
+
+            //Return effect to pool
+            EffectManager.instance.DeactivateSpawnerEffect(_se);
         }
     }
 
@@ -295,7 +291,7 @@ public class ProjectileSpawner : MonoBehaviour
     {
         foreach (ProjectileEffect _pe in _projectileEffects)
         {
-            ProjectileEffect newProjectileEffect = CachedBHEResources.instance.GetProjectileEffect(_pe.projectileEffectName);
+            ProjectileEffect newProjectileEffect = EffectManager.instance.GetProjectileEffect(_pe.projectileEffectName);
 
             newProjectileEffect.generationsToInheritEffect = _pe.generationsToInheritEffect;
 
@@ -308,7 +304,9 @@ public class ProjectileSpawner : MonoBehaviour
         foreach (ProjectileEffect _pe in _projectileEffects)
         {
             projectileEffects.Remove(_pe);
-            //TODO: Add back to pool
+            
+            //Return effect to pool
+            EffectManager.instance.DeactivateProjectileEffect(_pe);
         }
     }
 
@@ -351,7 +349,10 @@ public class ProjectileSpawner : MonoBehaviour
 
         if (destroyOnDisable)
         {
-            //TODO: Return stuff to caches
+            //Returns effects to caches
+            RemoveSpawnerEffects(new List<SpawnerEffect>(spawnerEffects));
+            RemoveProjectileEffects(new List<ProjectileEffect>(projectileEffects));
+
             Destroy(gameObject);
         }
     }
