@@ -238,6 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fpsText: {fileID: 1626202252}
+  lastFrameIndex: 0
+  frameDeltaTimeArray: []
 --- !u!1 &282895544
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,6 +277,7 @@ MonoBehaviour:
   - Test_Sine_Effect
   defaultProjectilePatterns:
   - Sine_Test_Pattern
+  curPatternIndex: 0
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
@@ -285,6 +288,10 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  curPattern: {fileID: 0}
+  cooldownTimer: 0
+  timesSpawned: 0
+  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!4 &282895546
 Transform:
@@ -502,6 +509,7 @@ MonoBehaviour:
   - Burst_Test_Pattern
   - Burst_Blank_Pattern
   - Burst_Test_Pattern
+  curPatternIndex: 0
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 1
@@ -512,6 +520,10 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  curPattern: {fileID: 0}
+  cooldownTimer: 0
+  timesSpawned: 0
+  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!4 &860002864
 Transform:
@@ -527,6 +539,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 282895546}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1129646545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1129646547}
+  - component: {fileID: 1129646546}
+  m_Layer: 0
+  m_Name: Load Mod Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1129646546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129646545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c76af7cc7e0a6341aac799905071684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModPath: 
+--- !u!4 &1129646547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129646545}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.631237, y: -5.518285, z: -159.20908}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1256282483
 GameObject:
@@ -578,6 +635,7 @@ MonoBehaviour:
   - Test_Default_Effects
   defaultProjectilePatterns:
   - Even_Test_Pattern
+  curPatternIndex: 0
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
@@ -588,6 +646,10 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  curPattern: {fileID: 0}
+  cooldownTimer: 0
+  timesSpawned: 0
+  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!1 &1461215322
 GameObject:
@@ -634,6 +696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxProjectiles: 10000
+  activeProjectileSpawnOrder: []
 --- !u!1 &1499066244
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
   instantiatedProjectiles: []
+  hasspawned: 0
 --- !u!4 &1561151717
 Transform:
   m_ObjectHideFlags: 0
@@ -785,6 +849,7 @@ MonoBehaviour:
   - Test_Create_Spawner_On_Death
   defaultProjectilePatterns:
   - Slow_Test_Pattern
+  curPatternIndex: 0
   fireIndefinitely: 0
   patternUses: 1
   randomizePatterns: 0
@@ -795,6 +860,10 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
+  curPattern: {fileID: 0}
+  cooldownTimer: 0
+  timesSpawned: 0
+  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!4 &1584469941
 Transform:
