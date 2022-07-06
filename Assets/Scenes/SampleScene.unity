@@ -238,8 +238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fpsText: {fileID: 1626202252}
-  lastFrameIndex: 0
-  frameDeltaTimeArray: []
 --- !u!1 &282895544
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +275,6 @@ MonoBehaviour:
   - Test_Sine_Effect
   defaultProjectilePatterns:
   - Sine_Test_Pattern
-  curPatternIndex: 0
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
@@ -288,10 +285,6 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  curPattern: {fileID: 0}
-  cooldownTimer: 0
-  timesSpawned: 0
-  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!4 &282895546
 Transform:
@@ -509,7 +502,6 @@ MonoBehaviour:
   - Burst_Test_Pattern
   - Burst_Blank_Pattern
   - Burst_Test_Pattern
-  curPatternIndex: 0
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 1
@@ -520,10 +512,6 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  curPattern: {fileID: 0}
-  cooldownTimer: 0
-  timesSpawned: 0
-  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!4 &860002864
 Transform:
@@ -635,7 +623,6 @@ MonoBehaviour:
   - Test_Default_Effects
   defaultProjectilePatterns:
   - Even_Test_Pattern
-  curPatternIndex: 0
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
@@ -646,10 +633,6 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  curPattern: {fileID: 0}
-  cooldownTimer: 0
-  timesSpawned: 0
-  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!1 &1461215322
 GameObject:
@@ -696,7 +679,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxProjectiles: 10000
-  activeProjectileSpawnOrder: []
 --- !u!1 &1499066244
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +777,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
   instantiatedProjectiles: []
-  hasspawned: 0
 --- !u!4 &1561151717
 Transform:
   m_ObjectHideFlags: 0
@@ -842,14 +823,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnerProjectileType: Slow_Projectile
   defaultSpawnerEffects:
-  - Base_Spawner_Info
+  - Pass_Spawner_Effects_To_Descendants
   - Rotate_45_Per_Sec
   defaultProjectileEffects:
   - Test_Default_Effects
   - Test_Create_Spawner_On_Death
   defaultProjectilePatterns:
   - Slow_Test_Pattern
-  curPatternIndex: 0
   fireIndefinitely: 0
   patternUses: 1
   randomizePatterns: 0
@@ -860,10 +840,6 @@ MonoBehaviour:
   spawnerEffects: []
   projectileEffects: []
   projectilePatterns: []
-  curPattern: {fileID: 0}
-  cooldownTimer: 0
-  timesSpawned: 0
-  totalPatternsUsed: 0
   TESTVAR: 1
 --- !u!4 &1584469941
 Transform:
