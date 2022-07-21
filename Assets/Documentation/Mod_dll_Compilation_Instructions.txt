@@ -1,0 +1,5 @@
+Compiling dlls:
+
+Create a new project in Visual Studio of type "Class Library"
+Reference as many scripts from the [Location of the game.exe]/Bullet Hell Engine_Data/Managed as possible (TODO: Figure out which dll holds my scripts, and which scripts are invalid)
+Build the project with your class
