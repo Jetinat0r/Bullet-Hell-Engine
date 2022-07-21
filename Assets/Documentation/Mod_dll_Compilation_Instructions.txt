@@ -3,3 +3,13 @@ Compiling dlls:
 Create a new project in Visual Studio of type "Class Library"
 Reference as many scripts from the [Location of the game.exe]/Bullet Hell Engine_Data/Managed as possible (TODO: Figure out which dll holds my scripts, and which scripts are invalid)
 Build the project with your class
+
+When built, locate the scripts directly related to your project and move them to your Mod's folder within the game's Mods folder
+
+
+*FAILED*
+Build in a better place:
+1. Right click the project icon in the Solution Explorer
+2. Go to Properties then select Build->Output
+3. Change base output path to your mod's folder within the game's Mods folder
+4. Profit!

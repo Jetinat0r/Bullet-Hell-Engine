@@ -54,17 +54,24 @@ public class CachedBHEResources : MonoBehaviour
 
     private void Start()
     {
+        LoadEditorPrefabs();
+
+        ModManager.instance.LoadMods();
+    }
+
+    private void LoadEditorPrefabs()
+    {
         GenerateProjectilePrefab("Sine_Projectile", ColliderType.CIRCLE, _color: Color.red);
         GenerateProjectilePrefab("Burst_Projectile", ColliderType.CIRCLE, _color: Color.blue);
         GenerateProjectilePrefab("Even_Projectile", ColliderType.CIRCLE, _color: Color.green);
         GenerateProjectilePrefab("Slow_Projectile", ColliderType.CIRCLE, _color: Color.yellow);
 
-        foreach(ProjectileEffect _effectPrefab in editorProjectileEffectScripObjs)
+        foreach (ProjectileEffect _effectPrefab in editorProjectileEffectScripObjs)
         {
             GenerateProjectileEffectPrefab(_effectPrefab);
         }
 
-        foreach(ProjectilePattern _pattern in editorProjectilePatternScripObjs)
+        foreach (ProjectilePattern _pattern in editorProjectilePatternScripObjs)
         {
             GenerateProjectilePatternPrefab(_pattern);
         }
