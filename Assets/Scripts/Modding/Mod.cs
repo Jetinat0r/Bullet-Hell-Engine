@@ -7,6 +7,10 @@ using UnityEngine;
 //TODO: Write somewhere that "Modded projectiles and such will NOT derive from a class like ModProjectile, they will just derive from Projectile or the relevant class"
 public class Mod
 {
+    public virtual string ModName { get; protected set; }
+    public virtual string ModVersion { get; protected set; }
+    public virtual string ModDescription { get; protected set; }
+
     //Called when the mod is first loaded in
     public virtual void OnLoad()
     {
@@ -17,5 +21,11 @@ public class Mod
     public virtual void OnLateLoad()
     {
         return;
+    }
+
+    //Used by other mods to request information or request changes to this mod's internals
+    public virtual object[] Call(object[] args=null)
+    {
+        return null;
     }
 }
