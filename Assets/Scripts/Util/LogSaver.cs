@@ -25,7 +25,7 @@ public class LogSaver : MonoBehaviour
         }
 
         Application.logMessageReceived += HandleLog;
-        Application.logMessageReceivedThreaded += HandleLog;
+        //Application.logMessageReceivedThreaded += HandleLog;
     }
 
     private void HandleLog(string logString, string stackTrace, LogType logType)

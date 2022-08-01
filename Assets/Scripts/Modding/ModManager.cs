@@ -72,7 +72,7 @@ public class ModManager : MonoBehaviour
 
 		foreach (string filePath in preCompFilePaths)
 		{
-			//ImportDllFile(filePath);
+			ImportDllFile(filePath);
 		}
 
 		foreach (string filePath in runtimeCompFilePaths)

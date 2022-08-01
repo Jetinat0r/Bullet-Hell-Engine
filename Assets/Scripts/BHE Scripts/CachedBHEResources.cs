@@ -216,7 +216,7 @@ public class CachedBHEResources : MonoBehaviour
     {
         if (spawnerEffects.ContainsKey(_effect.spawnerEffectName))
         {
-            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.spawnerEffectName}) already exists!");
+            Debug.LogError($"Failed to create new Spawner Effect as effect of type ({_effect.spawnerEffectName}) already exists!");
             return;
         }
 
@@ -234,7 +234,7 @@ public class CachedBHEResources : MonoBehaviour
             return _newEffect;
         }
 
-        Debug.LogError($"Projectile Effect of setup ({_effectName}) does not exist!");
+        Debug.LogError($"Spawner Effect of setup ({_effectName}) does not exist!");
         return null;
     }
     #endregion
