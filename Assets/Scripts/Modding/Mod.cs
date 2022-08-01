@@ -24,7 +24,7 @@ public class Mod
     }
 
     //Used by other mods to request information or request changes to this mod's internals
-    public virtual object[] Call(object[] args=null)
+    public virtual object Call(object[] args)
     {
         return null;
     }

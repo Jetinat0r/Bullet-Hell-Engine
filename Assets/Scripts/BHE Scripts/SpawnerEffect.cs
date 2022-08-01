@@ -73,5 +73,6 @@ public class SpawnerEffect : ScriptableObject
     public virtual void RemoveEffects(ProjectileSpawner spawner)
     {
         hasAppliedEffects = false;
+        hasAppliedLateEffects = false;
     }
 }

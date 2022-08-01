@@ -33,7 +33,7 @@ public class ProjectileEffect : ScriptableObject
     protected bool hasAppliedEffects = false;
     protected bool hasAppliedLateEffects = false;
 
-    //Used to reset local values on copy
+    //Used to reset variables on an instance of an effect
     public virtual void Init()
     {
         hasAppliedEffects = false;
@@ -67,12 +67,12 @@ public class ProjectileEffect : ScriptableObject
     //For effects that synergize / work with other effects
     public virtual void LateAddEffects(Projectile projectile)
     {
-        //TODO: Standardize whether the = true appears inside or outside the if
         if (!hasAppliedLateEffects)
         {
             //Apply late effects
-            hasAppliedLateEffects = true;
         }
+
+        hasAppliedLateEffects = true;
     }
 
     //For effects when a new effect is added via an outside actor after LateAddEffects
@@ -89,9 +89,11 @@ public class ProjectileEffect : ScriptableObject
             //Debug.Log("Permanent effect, not removing");
             return;
         }
-
-        //Remove Effects
-        //Debug.Log("Removing Effects");
+        else
+        {
+            hasAppliedEffects = false;
+            hasAppliedLateEffects = false;
+        }
     }
 
     //TODO: figure this out lol I really want lasers

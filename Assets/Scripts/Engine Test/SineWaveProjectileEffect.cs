@@ -14,14 +14,14 @@ public class SineWaveProjectileEffect : ProjectileEffect
     //Where the projectile is on the curve
     private float sinPos = 0f;
     //How far from "normal" the wave is
-    private float lastOffset;
+    private float lastPosition;
 
     //Used to reset local values on copy
     public override void Init()
     {
         base.Init();
         sinPos = 0f;
-        lastOffset = 0f;
+        lastPosition = 0f;
     }
 
     //Assigns effects to the correct places in Projectile's sequence of events
@@ -39,7 +39,7 @@ public class SineWaveProjectileEffect : ProjectileEffect
 
         //Initialize sin position and lastOffset
         sinPos = 0f;
-        lastOffset = 0f;
+        lastPosition = 0f;
     }
 
     //Removes the effects assigned in AddEffects()
@@ -62,12 +62,12 @@ public class SineWaveProjectileEffect : ProjectileEffect
 
     private void ChangeMovement(Projectile projectile)
     {
-        float newOffset = Mathf.Sin(sinPos * frequency) * Time.fixedDeltaTime;
+        float newPosition = Mathf.Sin(sinPos * frequency) * Time.fixedDeltaTime;
 
-        //Ends up moving the pos up or down by the difference between the old offset and the new offset to follow the sine wave
-        projectile.nextPos += projectile.transform.up * (newOffset - lastOffset) * magnitude;
+        //Ends up moving the pos up or down by the difference between the old position and the new position to create the offset to follow the sine wave
+        projectile.nextPos += projectile.transform.up * (newPosition - lastPosition) * magnitude;
 
-        lastOffset = newOffset;
+        lastPosition = newPosition;
         sinPos += Time.fixedDeltaTime;
     }
 }
