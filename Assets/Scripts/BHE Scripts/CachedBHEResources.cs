@@ -55,8 +55,11 @@ public class CachedBHEResources : MonoBehaviour
     private void Start()
     {
         LoadEditorPrefabs();
-
+        
         ModManager.instance.LoadMods();
+
+        //THIS IS ONLY FOR MOD TESTING, SHOULD BE CHANGED FOR FULL ENGINE RELEASE
+        ModTester.instance.Init();
     }
 
     private void LoadEditorPrefabs()

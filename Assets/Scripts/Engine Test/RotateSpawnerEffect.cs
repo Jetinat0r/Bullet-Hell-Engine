@@ -26,6 +26,8 @@ public class RotateSpawnerEffect :SpawnerEffect
 
     public override void RemoveEffects(ProjectileSpawner spawner)
     {
+        spawner.customEvents -= RotateSpawner;
+
         hasAppliedEffects = false;
     }
 

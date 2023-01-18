@@ -37,6 +37,8 @@ public class LogSaver : MonoBehaviour
         }
     }
 
+    //TODO: Convert this to an ILogHandler.
+    //
     //Returns false if the log string should not be added to the final output log, and true if it should
     //Currently checks for:
     // - The log warning for scriptable objects that don't have script objects (often caused by mods)

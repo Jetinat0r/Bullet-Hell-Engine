@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e71852e949dad746a2e9e7a368ff036, type: 3}
   m_Name: Mod Test Pattern
   m_EditorClassIdentifier: 
-  patternType: Mod_Test_Pattern
+  patternType: Mod_Tester_Pattern
   useSpawnerRotation: 1
   minAngle: 0
   maxAngle: 0
