@@ -420,6 +420,16 @@ public class ModTester : MonoBehaviour
         te.Copy();
     }
 
+    public void ClearProjectiles()
+    {
+        ProjectileManager.instance.ClearProjectilePools();
+    }
+
+    public void ClearEffectPools()
+    {
+        EffectManager.instance.ClearAllEffectPools();
+    }
+
     public void ToggleUI()
     {
         isUIShown = !isUIShown;
