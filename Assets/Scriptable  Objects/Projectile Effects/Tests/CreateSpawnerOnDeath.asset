@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: CreateSpawnerOnDeath
   m_EditorClassIdentifier: Assembly-CSharp::CreateSpawnerOnDeathEntityBehavior
-  entityBehaviorType: DEFAULT_PROJECTILE_EFFECT_TYPE
-  entityBehaviorName: DEFAULT_PROJECTILE_EFFECT_NAME
+  EntityBehaviorName: DEFAULT_PROJECTILE_EFFECT_NAME
   isPermanent: 0
   generationsToInheritBehavior: -1
-  SpawnerPrefab: {fileID: 0}
+  SpawnerPrefab: {fileID: 400110858497591409, guid: eec3fe293e378704d9a8b44e27d36516, type: 3}
   spawnerBehaviors: []

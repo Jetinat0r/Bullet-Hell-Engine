@@ -1946,13 +1946,13 @@ MonoBehaviour:
   projTypePanel: {fileID: 735296743}
   curProjTypeText: {fileID: 1667418696}
   projTypeScrollSection: {fileID: 1285423857}
-  projEffectsPanel: {fileID: 1206724381}
-  projEffectsScrollSection: {fileID: 1556250030}
-  spawnerEffectsPanel: {fileID: 118819944}
-  spawnerEffectsScrollSection: {fileID: 500529580}
-  projectilePatternsPanel: {fileID: 1445318767}
-  activeProjectilePatternsScrollSection: {fileID: 59911861}
-  availableProjectilePatternsScrollSection: {fileID: 1521837599}
+  projBehaviorsPanel: {fileID: 0}
+  projBehaviorsScrollSection: {fileID: 0}
+  spawnerBehaviorsPanel: {fileID: 0}
+  spawnerBehaviorsScrollSection: {fileID: 0}
+  spawnerPatternsPanel: {fileID: 0}
+  activeSpawnerPatternsScrollSection: {fileID: 0}
+  availableSpawnerPatternsScrollSection: {fileID: 0}
   randomizePatternsToggle: {fileID: 1420456553}
   noRandomRepeatsToggle: {fileID: 62460030}
 --- !u!1 &204574413
@@ -2466,15 +2466,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerProjectileType: Sine_Projectile
-  defaultSpawnerEffects:
-  - Rotate_45_Per_Sec
-  defaultProjectileEffects:
-  - Test_Default_Effects
-  - Test_Sine_Effect
-  - Test_Proj_Effect
-  defaultProjectilePatterns:
-  - Sine_Test_Pattern
+  spawnerEntityType: 
+  defaultSpawnerBehaviors: []
+  defaultEntityBehaviors: []
+  defaultSpawnerPatterns: []
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
@@ -2482,9 +2477,9 @@ MonoBehaviour:
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
-  spawnerEffects: []
-  projectileEffects: []
-  projectilePatterns: []
+  spawnerBehaviors: []
+  entityBehaviors: []
+  spawnerPatterns: []
   TESTVAR: 1
 --- !u!4 &282895546
 Transform:
@@ -3166,11 +3161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerProjectileType: Slow_Projectile
-  defaultSpawnerEffects: []
-  defaultProjectileEffects: []
-  defaultProjectilePatterns:
-  - Mod_Tester_Pattern
+  spawnerEntityType: 
+  defaultSpawnerBehaviors: []
+  defaultEntityBehaviors: []
+  defaultSpawnerPatterns: []
   fireIndefinitely: 1
   patternUses: 1
   randomizePatterns: 0
@@ -3178,9 +3172,9 @@ MonoBehaviour:
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
-  spawnerEffects: []
-  projectileEffects: []
-  projectilePatterns: []
+  spawnerBehaviors: []
+  entityBehaviors: []
+  spawnerPatterns: []
   TESTVAR: 0
 --- !u!4 &388918816
 Transform:
@@ -7036,14 +7030,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerProjectileType: Burst_Projectile
-  defaultSpawnerEffects: []
-  defaultProjectileEffects:
-  - Test_Default_Effects
-  defaultProjectilePatterns:
-  - Burst_Test_Pattern
-  - Burst_Blank_Pattern
-  - Burst_Test_Pattern
+  spawnerEntityType: 
+  defaultSpawnerBehaviors: []
+  defaultEntityBehaviors: []
+  defaultSpawnerPatterns: []
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 1
@@ -7051,9 +7041,9 @@ MonoBehaviour:
   noRandomRepeats: 1
   destroyOnDisable: 0
   isEnabled: 0
-  spawnerEffects: []
-  projectileEffects: []
-  projectilePatterns: []
+  spawnerBehaviors: []
+  entityBehaviors: []
+  spawnerPatterns: []
   TESTVAR: 1
 --- !u!4 &860002864
 Transform:
@@ -8185,7 +8175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1129646546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9188,12 +9178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerProjectileType: Even_Projectile
-  defaultSpawnerEffects: []
-  defaultProjectileEffects:
-  - Test_Default_Effects
-  defaultProjectilePatterns:
-  - Even_Test_Pattern
+  spawnerEntityType: 
+  defaultSpawnerBehaviors: []
+  defaultEntityBehaviors: []
+  defaultSpawnerPatterns: []
   fireIndefinitely: 1
   patternUses: 2
   randomizePatterns: 0
@@ -9201,9 +9189,9 @@ MonoBehaviour:
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
-  spawnerEffects: []
-  projectileEffects: []
-  projectilePatterns: []
+  spawnerBehaviors: []
+  entityBehaviors: []
+  spawnerPatterns: []
   TESTVAR: 1
 --- !u!1 &1260172461
 GameObject:
@@ -10381,7 +10369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da7906286effb2409e273314dec257e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxProjectiles: 10000
+  maxEntities: 10000
 --- !u!1 &1472647846
 GameObject:
   m_ObjectHideFlags: 0
@@ -11098,15 +11086,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b9b16b239309147888982b570dd628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerProjectileType: Slow_Projectile
-  defaultSpawnerEffects:
-  - Pass_Spawner_Effects_To_Descendants
-  - Rotate_45_Per_Sec
-  defaultProjectileEffects:
-  - Test_Default_Effects
-  - Test_Create_Spawner_On_Death
-  defaultProjectilePatterns:
-  - Slow_Test_Pattern
+  spawnerEntityType: 
+  defaultSpawnerBehaviors: []
+  defaultEntityBehaviors: []
+  defaultSpawnerPatterns: []
   fireIndefinitely: 0
   patternUses: 1
   randomizePatterns: 0
@@ -11114,9 +11097,9 @@ MonoBehaviour:
   noRandomRepeats: 0
   destroyOnDisable: 0
   isEnabled: 0
-  spawnerEffects: []
-  projectileEffects: []
-  projectilePatterns: []
+  spawnerBehaviors: []
+  entityBehaviors: []
+  spawnerPatterns: []
   TESTVAR: 1
 --- !u!4 &1584469941
 Transform:
@@ -13586,6 +13569,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909833140}
   m_CullTransparentMesh: 1
+--- !u!1 &1923596501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1923596503}
+  - component: {fileID: 1923596502}
+  m_Layer: 0
+  m_Name: SHADER_TEST
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1923596502
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923596501}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 59d13aabc0d5570498cc708849ddc4e8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1923596503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923596501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 48.736, y: 20.291, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1927367940
 GameObject:
   m_ObjectHideFlags: 0
@@ -14840,22 +14907,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb41150f70ac86419e542c6e2909a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseProjectile: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
-  editorSpawnerEffectScripObjs:
-  - {fileID: 11400000, guid: a258a678f10264645aa24eb510a6f0fd, type: 2}
-  - {fileID: 11400000, guid: a59c47c475bc4594b8cd95fa04afbcce, type: 2}
-  editorProjectileEffectScripObjs:
-  - {fileID: 11400000, guid: ad669eece728cfa48ab6199f6b4fda5f, type: 2}
-  - {fileID: 11400000, guid: 312a60fa917542d4eb9bc649f21999bb, type: 2}
-  - {fileID: 11400000, guid: aac2005d9b504494591e5fa6db1863a3, type: 2}
-  - {fileID: 11400000, guid: 693ba71dbf7cf3c498afd371a42a370f, type: 2}
-  editorProjectilePatternScripObjs:
-  - {fileID: 11400000, guid: 7de67f89e6adf4c428eedb6ec735207c, type: 2}
-  - {fileID: 11400000, guid: ebd899040fcdf874ab51220553a9e14f, type: 2}
-  - {fileID: 11400000, guid: a15b92eaaa18131478bcd841a17d97ff, type: 2}
-  - {fileID: 11400000, guid: c5debd01157dfb54282558b9e4d34278, type: 2}
-  - {fileID: 11400000, guid: 32d4ca9bc1c52964f8bad8eb9c610b2e, type: 2}
-  - {fileID: 11400000, guid: 5b97a96d01c617448a98d726790512d5, type: 2}
+  baseEntity: {fileID: 5837569206297429203, guid: d75d8ea55211e9841ba8668a06d7e808, type: 3}
+  editorSpawnerBehaviorScripObjs: []
+  editorEntityBehaviorScripObjs:
+  - {fileID: 0}
+  editorSpawnerPatternScripObjs: []
 --- !u!4 &2112811564
 Transform:
   m_ObjectHideFlags: 0
