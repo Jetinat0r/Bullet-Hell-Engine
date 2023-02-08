@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //The base class from which all mods will derive from
-//This is primarily meant for loading a mod's projectiles, effects, prefabs, etc.
-//TODO: Write somewhere that "Modded projectiles and such will NOT derive from a class like ModProjectile, they will just derive from Projectile or the relevant class"
+//This is primarily meant for loading a mod's entities, behaviors, prefabs, etc.
+//TODO: Write somewhere that "Modded entities and such will NOT derive from a class like ModEntity, they will just derive from Entity or the relevant class"
 public class Mod
 {
     public virtual string ModName { get; protected set; }

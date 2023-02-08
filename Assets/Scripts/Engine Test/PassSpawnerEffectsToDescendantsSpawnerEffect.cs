@@ -2,79 +2,82 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//This Spawner Effect creates a projectile effect that tells those projectiles what spawner effects the original one had
-[CreateAssetMenu(fileName = "New Pass Spawner Effects To Descendants Spawner Effect", menuName = "ScriptableObjects/Spawner Effects/Pass Spawner Effects To Descendants")]
-public class PassSpawnerEffectsToDescendantsSpawnerEffect : SpawnerEffect
+//This Spawner Behavior creates a entity behavior that tells those entities what spawner behaviors the original one had
+[CreateAssetMenu(fileName = "New Pass Spawner Behaviors To Descendants Spawner Behavior", menuName = "ScriptableObjects/Spawner Behaviors/Pass Spawner Behaviors To Descendants")]
+public class PassSpawnerBehaviorsToDescendantsSpawnerBehavior : SpawnerBehavior
 {
+    public new const string SpawnerBehaviorType = "Pass_Spawner_Behaviors_To_Descendants";
+    public override string GetSpawnerBehaviorType() => SpawnerBehaviorType;
+
     //[Space(10)]
     //[Header("Descendant Spawner Info Vars")]
-    //public List<SpawnerEffect> spawnerEffects = new List<SpawnerEffect>();
-    public SpawnerEffectContainerProjectileEffect spawnerEffectContainerProjectileEffect;
+    //public List<SpawnerBehavior> spawnerBehaviors = new List<SpawnerBehavior>();
+    public SpawnerBehaviorContainerEntityBehavior spawnerBehaviorContainerEntityBehavior;
 
     public override void Init()
     {
-        //spawnerEffects = new List<SpawnerEffect>();
-        //descendantProjectileInfo = CreateInstance<DescendantProjectileInfo>();
-        if(spawnerEffectContainerProjectileEffect == null)
+        //spawnerBehaviors = new List<SpawnerBehavior>();
+        //descendantEntityInfo = CreateInstance<DescendantEntityInfo>();
+        if(spawnerBehaviorContainerEntityBehavior == null)
         {
-            spawnerEffectContainerProjectileEffect = EffectManager.instance.GetProjectileEffect(SpawnerEffectContainerProjectileEffect.TYPE) as SpawnerEffectContainerProjectileEffect;
+            spawnerBehaviorContainerEntityBehavior = BehaviorManager.instance.GetEntityBehavior(SpawnerBehaviorContainerEntityBehavior.EntityBehaviorType) as SpawnerBehaviorContainerEntityBehavior;
         }
 
-        hasAppliedEffects = false;
+        hasAppliedBehaviors = false;
     }
 
-    public override void AddEffects(ProjectileSpawner spawner)
+    public override void AddBehaviors(EntitySpawner spawner)
     {
         
     }
 
-    public override void LateAddEffects(ProjectileSpawner spawner)
+    public override void LateAddBehaviors(EntitySpawner spawner)
     {
-        if (!hasAppliedLateEffects)
+        if (!hasAppliedLateBehaviors)
         {
-            //If there is spawner effects, they need returned to the cache before we can use the list again
+            //If there is spawner behaviors, they need returned to the cache before we can use the list again
             //Don't need to remove them since that happens right after
-            if (spawnerEffectContainerProjectileEffect.spawnerEffects != null && spawnerEffectContainerProjectileEffect.spawnerEffects.Count != 0)
+            if (spawnerBehaviorContainerEntityBehavior.spawnerBehaviors != null && spawnerBehaviorContainerEntityBehavior.spawnerBehaviors.Count != 0)
             {
-                foreach(SpawnerEffect se in spawnerEffectContainerProjectileEffect.spawnerEffects)
+                foreach(SpawnerBehavior se in spawnerBehaviorContainerEntityBehavior.spawnerBehaviors)
                 {
-                    EffectManager.instance.DeactivateSpawnerEffect(se);
+                    BehaviorManager.instance.DeactivateSpawnerBehavior(se);
                 }
             }
 
 
-            spawnerEffectContainerProjectileEffect.spawnerEffects = new List<SpawnerEffect>();
+            spawnerBehaviorContainerEntityBehavior.spawnerBehaviors = new List<SpawnerBehavior>();
 
-            foreach (SpawnerEffect _effect in spawner.spawnerEffects)
+            foreach (SpawnerBehavior _behavior in spawner.spawnerBehaviors)
             {
-                SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(_effect.spawnerEffectName);
-                newSpawnerEffect.Copy(_effect);
-                spawnerEffectContainerProjectileEffect.spawnerEffects.Add(newSpawnerEffect);
+                SpawnerBehavior newSpawnerBehavior = BehaviorManager.instance.GetSpawnerBehavior(_behavior.SpawnerBehaviorName);
+                newSpawnerBehavior.Copy(_behavior);
+                spawnerBehaviorContainerEntityBehavior.spawnerBehaviors.Add(newSpawnerBehavior);
             }
 
-            spawner.projectileEffects.Add(spawnerEffectContainerProjectileEffect);
+            spawner.entityBehaviors.Add(spawnerBehaviorContainerEntityBehavior);
         }
 
         
-        hasAppliedLateEffects = true;
+        hasAppliedLateBehaviors = true;
     }
 
-    public override void UpdateEffects(ProjectileSpawner spawner)
+    public override void UpdateBehaviors(EntitySpawner spawner)
     {
-        spawnerEffectContainerProjectileEffect.spawnerEffects = new List<SpawnerEffect>();
+        spawnerBehaviorContainerEntityBehavior.spawnerBehaviors = new List<SpawnerBehavior>();
 
-        foreach (SpawnerEffect _effect in spawner.spawnerEffects)
+        foreach (SpawnerBehavior _behavior in spawner.spawnerBehaviors)
         {
-            SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(_effect.spawnerEffectName);
-            newSpawnerEffect.Copy(_effect);
-            spawnerEffectContainerProjectileEffect.spawnerEffects.Add(newSpawnerEffect);
+            SpawnerBehavior newSpawnerBehavior = BehaviorManager.instance.GetSpawnerBehavior(_behavior.SpawnerBehaviorName);
+            newSpawnerBehavior.Copy(_behavior);
+            spawnerBehaviorContainerEntityBehavior.spawnerBehaviors.Add(newSpawnerBehavior);
         }
     }
 
-    public override void RemoveEffects(ProjectileSpawner spawner)
+    public override void RemoveBehaviors(EntitySpawner spawner)
     {
-        //Returns spawnerEffectContainerProjectileEffect to cache
-        spawner.RemoveProjectileEffects(new List<ProjectileEffect> { spawnerEffectContainerProjectileEffect });
-        hasAppliedEffects = false;
+        //Returns spawnerBehaviorContainerEntityBehavior to cache
+        spawner.RemoveEntityBehaviors(new List<EntityBehaviour> { spawnerBehaviorContainerEntityBehavior });
+        hasAppliedBehaviors = false;
     }
 }

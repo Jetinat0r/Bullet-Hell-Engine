@@ -15,29 +15,29 @@ public class CachedBHEResources : MonoBehaviour
 {
     public static CachedBHEResources instance;
 
-    //The base projectile from which every other projectile will generate its prefab from
-    public Projectile baseProjectile;
-    //Stores all base projectile prefabs, the key is the projectileType
-    public Dictionary<string, Projectile> projectilePrefabs = new Dictionary<string, Projectile>();
+    //The base entity from which every other entity will generate its prefab from
+    public Entity baseEntity;
+    //Stores all base entity prefabs, the key is the entityType
+    public Dictionary<string, Entity> entityPrefabs = new Dictionary<string, Entity>();
 
-    //List for me to add spawner effects to the dictionary
+    //List for me to add spawner behaviors to the dictionary
     [SerializeField]
-    [Tooltip("These are for setting up spawner effects via the editor")]
-    private List<SpawnerEffect> editorSpawnerEffectScripObjs = new List<SpawnerEffect>();
-    //Every available Projectile Effect that spawners can choose from. The effects can still be modified after being copied over, but these are the defaults
-    public Dictionary<string, SpawnerEffect> spawnerEffects = new Dictionary<string, SpawnerEffect>();
+    [Tooltip("These are for setting up spawner behaviors via the editor")]
+    private List<SpawnerBehavior> editorSpawnerBehaviorScripObjs = new List<SpawnerBehavior>();
+    //Every available Entity Behavior that spawners can choose from. The behaviors can still be modified after being copied over, but these are the defaults
+    public Dictionary<string, SpawnerBehavior> spawnerBehaviors = new Dictionary<string, SpawnerBehavior>();
 
-    //List for me to add projectile effects to the dictionary
-    [SerializeField] [Tooltip("These are for setting up projectile effects via the editor")]
-    private List<ProjectileEffect> editorProjectileEffectScripObjs = new List<ProjectileEffect>();
-    //Every available Projectile Effect that spawners can choose from. The effects can still be modified after being copied over, but these are the defaults
-    public Dictionary<string, ProjectileEffect> projectileEffects = new Dictionary<string, ProjectileEffect>();
+    //List for me to add entity behaviors to the dictionary
+    [SerializeField] [Tooltip("These are for setting up entity behaviors via the editor")]
+    private List<EntityBehaviour> editorEntityBehaviorScripObjs = new List<EntityBehaviour>();
+    //Every available Entity Behavior that spawners can choose from. The behaviors can still be modified after being copied over, but these are the defaults
+    public Dictionary<string, EntityBehaviour> entityBehaviors = new Dictionary<string, EntityBehaviour>();
 
-    //List for me to add projectile patterns to the dictionary
-    [SerializeField] [Tooltip("These are for setting up projectile effects via the editor")]
-    private List<ProjectilePattern> editorProjectilePatternScripObjs = new List<ProjectilePattern>();
-    //Every available Projectile Effect that spawners can choose from. The effects can still be modified after being copied over, but these are the defaults
-    public Dictionary<string, ProjectilePattern> projectilePatterns = new Dictionary<string, ProjectilePattern>();
+    //List for me to add entity patterns to the dictionary
+    [SerializeField] [Tooltip("These are for setting up entity behaviors via the editor")]
+    private List<SpawnerPattern> editorSpawnerPatternScripObjs = new List<SpawnerPattern>();
+    //Every available Entity Behavior that spawners can choose from. The behaviors can still be modified after being copied over, but these are the defaults
+    public Dictionary<string, SpawnerPattern> spawnerPatterns = new Dictionary<string, SpawnerPattern>();
 
     private void Awake()
     {
@@ -64,37 +64,37 @@ public class CachedBHEResources : MonoBehaviour
 
     private void LoadEditorPrefabs()
     {
-        GenerateProjectilePrefab("Sine_Projectile", ColliderType.CIRCLE, _color: Color.red);
-        GenerateProjectilePrefab("Burst_Projectile", ColliderType.CIRCLE, _color: Color.blue);
-        GenerateProjectilePrefab("Even_Projectile", ColliderType.CIRCLE, _color: Color.green);
-        GenerateProjectilePrefab("Slow_Projectile", ColliderType.CIRCLE, _color: Color.yellow);
+        GenerateEntityPrefab("Sine_Projectile", ColliderType.CIRCLE, _color: Color.red);
+        GenerateEntityPrefab("Burst_Projectile", ColliderType.CIRCLE, _color: Color.blue);
+        GenerateEntityPrefab("Even_Projectile", ColliderType.CIRCLE, _color: Color.green);
+        GenerateEntityPrefab("Slow_Projectile", ColliderType.CIRCLE, _color: Color.yellow);
 
-        foreach (ProjectileEffect _effectPrefab in editorProjectileEffectScripObjs)
+        foreach (EntityBehaviour _behaviorPrefab in editorEntityBehaviorScripObjs)
         {
-            GenerateProjectileEffectPrefab(_effectPrefab);
+            GenerateEntityBehaviorPrefab(_behaviorPrefab);
         }
 
-        foreach (ProjectilePattern _pattern in editorProjectilePatternScripObjs)
+        foreach (SpawnerPattern _pattern in editorSpawnerPatternScripObjs)
         {
-            GenerateProjectilePatternPrefab(_pattern);
+            GenerateSpawnerPatternPrefab(_pattern);
         }
 
-        foreach (SpawnerEffect _effectPrefab in editorSpawnerEffectScripObjs)
+        foreach (SpawnerBehavior _behaviorPrefab in editorSpawnerBehaviorScripObjs)
         {
-            GenerateSpawnerEffectPrefab(_effectPrefab);
+            GenerateSpawnerBehaviorPrefab(_behaviorPrefab);
         }
     }
 
-    #region Projectiles
-    public void GenerateProjectilePrefab(string _projectileType, ColliderType _colliderType, Sprite _sprite = null, Color? _color = null)
+    #region Entities
+    public void GenerateEntityPrefab(string _entityType, ColliderType _colliderType, Sprite _sprite = null, Color? _color = null)
     {
-        if (projectilePrefabs.ContainsKey(_projectileType))
+        if (entityPrefabs.ContainsKey(_entityType))
         {
-            Debug.LogError($"Failed to create new Projectile Prefab as projectile of type ({_projectileType}) already exists!");
+            Debug.LogError($"Failed to create new Entity Prefab as entity of type ({_entityType}) already exists!");
             return;
         }
 
-        Projectile newProjectile = Instantiate(baseProjectile);
+        Entity newEntity = Instantiate(baseEntity);
 
         //Adds the correct default collider onto the new prefab
 
@@ -102,169 +102,169 @@ public class CachedBHEResources : MonoBehaviour
         switch (_colliderType)
         {
             case (ColliderType.CIRCLE):
-                CircleCollider2D _circleCollider = newProjectile.gameObject.AddComponent<CircleCollider2D>();
+                CircleCollider2D _circleCollider = newEntity.gameObject.AddComponent<CircleCollider2D>();
 
                 _circleCollider.isTrigger = true;
                 break;
 
             case (ColliderType.BOX):
-                BoxCollider2D _boxCollider = newProjectile.gameObject.AddComponent<BoxCollider2D>();
+                BoxCollider2D _boxCollider = newEntity.gameObject.AddComponent<BoxCollider2D>();
 
                 _boxCollider.isTrigger = true;
                 break;
 
             case (ColliderType.CAPSULE):
-                CapsuleCollider2D _capsuleCollider = newProjectile.gameObject.AddComponent<CapsuleCollider2D>();
+                CapsuleCollider2D _capsuleCollider = newEntity.gameObject.AddComponent<CapsuleCollider2D>();
 
                 _capsuleCollider.isTrigger = true;
                 break;
 
             case (ColliderType.EDGE):
-                EdgeCollider2D _edgeCollider = newProjectile.gameObject.AddComponent<EdgeCollider2D>();
+                EdgeCollider2D _edgeCollider = newEntity.gameObject.AddComponent<EdgeCollider2D>();
 
                 _edgeCollider.isTrigger = true;
                 break;
 
             case (ColliderType.POLYGON):
-                PolygonCollider2D _polygonCollider = newProjectile.gameObject.AddComponent<PolygonCollider2D>();
+                PolygonCollider2D _polygonCollider = newEntity.gameObject.AddComponent<PolygonCollider2D>();
 
                 _polygonCollider.isTrigger = true;
                 break;
 
             default:
-                Debug.LogError($"Invalid ColliderType ({_colliderType}) while generating projectile prefab for type ({_projectileType}). Defaulting ColliderType to CIRCLE.");
+                Debug.LogError($"Invalid ColliderType ({_colliderType}) while generating entity prefab for type ({_entityType}). Defaulting ColliderType to CIRCLE.");
                 _colliderType = ColliderType.CIRCLE;
 
-                CircleCollider2D _defaultCircleCollider = newProjectile.gameObject.AddComponent<CircleCollider2D>();
+                CircleCollider2D _defaultCircleCollider = newEntity.gameObject.AddComponent<CircleCollider2D>();
 
                 _defaultCircleCollider.isTrigger = true;
                 break;
         }
 
         //Final Setup
-        DontDestroyOnLoad(newProjectile.gameObject);
-        newProjectile.name = _projectileType + " Prefab";
-        newProjectile.SetupNewPrefab(_projectileType, _colliderType, _sprite, _color);
+        DontDestroyOnLoad(newEntity.gameObject);
+        newEntity.name = _entityType + " Prefab";
+        newEntity.SetupNewPrefab(_entityType, _colliderType, _sprite, _color);
 
         //Add the prefab to the dictionary
-        projectilePrefabs.Add(_projectileType, newProjectile);
+        entityPrefabs.Add(_entityType, newEntity);
 
         //Disables the prefab to avoid finding it during gameplay
-        newProjectile.gameObject.SetActive(false);
+        newEntity.gameObject.SetActive(false);
 
-        Debug.Log($"Created projectile prefab ({newProjectile.name})");
+        Debug.Log($"Created entity prefab ({newEntity.name})");
     }
 
     /*
-    public void GenerateProjectilePrefab(string _projectileType, ColliderType colliderType, SpriteRenderer _spriteRenderer = null)
+    public void GenerateEntityPrefab(string _entityType, ColliderType colliderType, SpriteRenderer _spriteRenderer = null)
     {
-        if (projectilePrefabs.ContainsKey(_projectileType))
+        if (entityPrefabs.ContainsKey(_entityType))
         {
-            Debug.LogError($"Failed to create new Projectile Prefab as projectile of type ({_projectileType}) already exists!");
+            Debug.LogError($"Failed to create new Entity Prefab as entity of type ({_entityType}) already exists!");
             return;
         }
     }
     */
 
-    //Called by ProjectileManager when it attempts to create a new projectile
-    //Returns a new copy of the desired projectile
-    public Projectile InstantiateProjectile(string _projectileType)
+    //Called by EntityManager when it attempts to create a new entity
+    //Returns a new copy of the desired entity
+    public Entity InstantiateEntity(string _entityType)
     {
-        if (projectilePrefabs.TryGetValue(_projectileType, out Projectile _projectilePrefab))
+        if (entityPrefabs.TryGetValue(_entityType, out Entity _entityPrefab))
         {
-            Projectile newProjectile = Instantiate(_projectilePrefab);
-            return newProjectile;
+            Entity newEntity = Instantiate(_entityPrefab);
+            return newEntity;
         }
         else
         {
-            //TODO: Maybe return some form of default projectile?
-            Debug.LogError($"Projectile of type ({_projectileType}) not found!");
+            //TODO: Maybe return some form of default entity?
+            Debug.LogError($"Entity of type ({_entityType}) not found!");
             return null;
         }
     }
     #endregion
 
-    #region Projectile Effects
-    //Adds a projectile effect to the list of available effects to copy. Generation of mod effects will occur elsewhere, perhaps TODO: in a [modname].cs file
-    public void GenerateProjectileEffectPrefab(ProjectileEffect _effect)
+    #region Entity Behaviors
+    //Adds a entity behavior to the list of available behaviors to copy. Generation of mod behaviors will occur elsewhere, perhaps TODO: in a [modname].cs file
+    public void GenerateEntityBehaviorPrefab(EntityBehaviour _behavior)
     {
-        if (projectileEffects.ContainsKey(_effect.projectileEffectName))
+        if (entityBehaviors.ContainsKey(_behavior.EntityBehaviorName))
         {
-            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_effect.projectileEffectName}) already exists!");
+            Debug.LogError($"Failed to create new Entity Behavior as behavior of type ({_behavior.EntityBehaviorName}) already exists!");
             return;
         }
 
-        Debug.Log($"Created projectile effect ({_effect.projectileEffectName})");
-        projectileEffects.Add(_effect.projectileEffectName, _effect);
+        Debug.Log($"Created entity behavior ({_behavior.EntityBehaviorName})");
+        entityBehaviors.Add(_behavior.EntityBehaviorName, _behavior);
     }
 
-    //Returns a new copy of the desired projectile effect
-    public ProjectileEffect InstantiateProjectileEffect(string _effectName)
+    //Returns a new copy of the desired entity behavior
+    public EntityBehaviour InstantiateEntityBehavior(string _behaviorName)
     {
-        if(projectileEffects.TryGetValue(_effectName, out ProjectileEffect _projectileEffect))
+        if(entityBehaviors.TryGetValue(_behaviorName, out EntityBehaviour _entityBehavior))
         {
-            ProjectileEffect _newEffect = Instantiate(_projectileEffect);
-            _newEffect.Init();
-            return _newEffect;
+            EntityBehaviour _newBehavior = Instantiate(_entityBehavior);
+            _newBehavior.Init();
+            return _newBehavior;
         }
 
-        Debug.LogError($"Projectile Effect of setup ({_effectName}) does not exist!");
+        Debug.LogError($"Entity Behavior of setup ({_behaviorName}) does not exist!");
         return null;
     }
     #endregion
 
-    #region Spawner Effects
-    //Adds a spawner effect to the list of available effects to copy. Generation of mod effects will occur elsewhere, perhaps TODO: in a [modname].cs file
-    public void GenerateSpawnerEffectPrefab(SpawnerEffect _effect)
+    #region Spawner Behaviors
+    //Adds a spawner behavior to the list of available behaviors to copy. Generation of mod behaviors will occur elsewhere, perhaps TODO: in a [modname].cs file
+    public void GenerateSpawnerBehaviorPrefab(SpawnerBehavior _behavior)
     {
-        if (spawnerEffects.ContainsKey(_effect.spawnerEffectName))
+        if (spawnerBehaviors.ContainsKey(_behavior.SpawnerBehaviorName))
         {
-            Debug.LogError($"Failed to create new Spawner Effect as effect of type ({_effect.spawnerEffectName}) already exists!");
+            Debug.LogError($"Failed to create new Spawner Behavior as behavior of type ({_behavior.SpawnerBehaviorName}) already exists!");
             return;
         }
 
-        Debug.Log($"Created spawner effect ({_effect.spawnerEffectName})");
-        spawnerEffects.Add(_effect.spawnerEffectName, _effect);
+        Debug.Log($"Created spawner behavior ({_behavior.SpawnerBehaviorName})");
+        spawnerBehaviors.Add(_behavior.SpawnerBehaviorName, _behavior);
     }
 
-    //Returns a new copy of the desired spawner effect
-    public SpawnerEffect InstantiateSpawnerEffect(string _effectName)
+    //Returns a new copy of the desired spawner behavior
+    public SpawnerBehavior InstantiateSpawnerBehavior(string _behaviorName)
     {
-        if (spawnerEffects.TryGetValue(_effectName, out SpawnerEffect _effect))
+        if (spawnerBehaviors.TryGetValue(_behaviorName, out SpawnerBehavior _behavior))
         {
-            SpawnerEffect _newEffect = Instantiate(_effect);
-            _newEffect.Init();
-            return _newEffect;
+            SpawnerBehavior _newBehavior = Instantiate(_behavior);
+            _newBehavior.Init();
+            return _newBehavior;
         }
 
-        Debug.LogError($"Spawner Effect of setup ({_effectName}) does not exist!");
+        Debug.LogError($"Spawner Behavior of setup ({_behaviorName}) does not exist!");
         return null;
     }
     #endregion
 
-    #region ProjectilePatterns
-    //Adds a projectile pattern to the list of available effects to copy. Generation of mod patterns will occur elsewhere, perhaps TODO: in a [modname].cs file
-    public void GenerateProjectilePatternPrefab(ProjectilePattern _pattern)
+    #region SpawnerPatterns
+    //Adds a entity pattern to the list of available behaviors to copy. Generation of mod patterns will occur elsewhere, perhaps TODO: in a [modname].cs file
+    public void GenerateSpawnerPatternPrefab(SpawnerPattern _pattern)
     {
-        if (projectilePatterns.ContainsKey(_pattern.patternType))
+        if (spawnerPatterns.ContainsKey(_pattern.patternType))
         {
-            Debug.LogError($"Failed to create new Projectile Effect as effect of type ({_pattern.patternType}) already exists!");
+            Debug.LogError($"Failed to create new Entity Behavior as behavior of type ({_pattern.patternType}) already exists!");
             return;
         }
 
-        Debug.Log($"Created projectile pattern ({_pattern.patternType})");
-        projectilePatterns.Add(_pattern.patternType, _pattern);
+        Debug.Log($"Created entity pattern ({_pattern.patternType})");
+        spawnerPatterns.Add(_pattern.patternType, _pattern);
     }
 
     //Returns a new copy of the desired pattern
-    public ProjectilePattern GetProjectilePattern(string _patternType)
+    public SpawnerPattern GetSpawnerPattern(string _patternType)
     {
-        if (projectilePatterns.TryGetValue(_patternType, out ProjectilePattern _projectilePattern))
+        if (spawnerPatterns.TryGetValue(_patternType, out SpawnerPattern _spawnerPattern))
         {
-            return Instantiate(_projectilePattern);
+            return Instantiate(_spawnerPattern);
         }
 
-        Debug.LogError($"Projectile Pattern of type ({_patternType}) does not exist!");
+        Debug.LogError($"Entity Pattern of type ({_patternType}) does not exist!");
         return null;
     }
     #endregion

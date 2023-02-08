@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ProjectilePatternInfoPanel : MonoBehaviour
+public class SpawnerPatternInfoPanel : MonoBehaviour
 {
     [SerializeField]
     public TMP_Text patternNameText;
@@ -22,11 +22,11 @@ public class ProjectilePatternInfoPanel : MonoBehaviour
 
     public void AddPattern()
     {
-        ModTester.instance.AddProjectilePattern(storedPatternName);
+        ModTester.instance.AddSpawnerPattern(storedPatternName);
     }
 
     public void RemovePattern()
     {
-        ModTester.instance.RemoveProjectilePattern(storedIndex);
+        ModTester.instance.RemoveSpawnerPattern(storedIndex);
     }
 }

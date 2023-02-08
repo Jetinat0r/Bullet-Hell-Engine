@@ -3,97 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class EffectManagerExtraInspector : EditorWindow
+public class BehaviorManagerExtraInspector : EditorWindow
 {
-    public string lastEffectDump = "";
+    public string lastBehaviorDump = "";
 
-    [MenuItem("Window/Custom/Effect Cache Watcher")]
+    [MenuItem("Window/Custom/Behavior Cache Watcher")]
     public static void ShowWindow()
     {
-        GetWindow<EffectManagerExtraInspector>("Effect Cache Watcher");
+        GetWindow<BehaviorManagerExtraInspector>("Behavior Cache Watcher");
     }
 
     private void OnGUI()
     {
-        GUILayout.Label("Selected Effect Manager", EditorStyles.boldLabel);
+        GUILayout.Label("Selected Behavior Manager", EditorStyles.boldLabel);
 
-        EffectManager[] effectManagers = Selection.GetFiltered<EffectManager>(SelectionMode.Deep);
+        BehaviorManager[] behaviorManagers = Selection.GetFiltered<BehaviorManager>(SelectionMode.Deep);
         
-        if(effectManagers.Length > 0)
+        if(behaviorManagers.Length > 0)
         {
-            if (effectManagers.Length > 1)
+            if (behaviorManagers.Length > 1)
             {
-                GUILayout.TextArea("You should never have more than one Effect Manager!");
+                GUILayout.TextArea("You should never have more than one Behavior Manager!");
                 return;
             }
 
-            EffectManager effectManager = effectManagers[0];
+            BehaviorManager behaviorManager = behaviorManagers[0];
 
-            GUILayout.Label($"{effectManager.name}", EditorStyles.boldLabel);
+            GUILayout.Label($"{behaviorManager.name}", EditorStyles.boldLabel);
             GUILayout.Space(10);
 
             if (GUILayout.Button("Get Dump"))
             {
                 string dump = "";
 
-                #region Get Proj Effects
-                int totalProjEffects = 0;
-                string detailedActiveProjEffects = "";
-                foreach (string projEffectKey in effectManager.activeProjectileEffects.Keys)
+                #region Get Proj Behaviors
+                int totalProjBehaviors = 0;
+                string detailedActiveProjBehaviors = "";
+                foreach (string projBehaviorKey in behaviorManager.activeEntityBehaviors.Keys)
                 {
-                    List<ProjectileEffect> projEffectList = effectManager.activeProjectileEffects[projEffectKey];
-                    totalProjEffects += projEffectList.Count;
+                    List<EntityBehaviour> projBehaviorList = behaviorManager.activeEntityBehaviors[projBehaviorKey];
+                    totalProjBehaviors += projBehaviorList.Count;
 
-                    detailedActiveProjEffects += projEffectKey + ": " + projEffectList.Count + "\n";
+                    detailedActiveProjBehaviors += projBehaviorKey + ": " + projBehaviorList.Count + "\n";
                 }
 
-                string detailedInactiveProjEffects = "";
-                foreach (string projEffectKey in effectManager.inactiveProjectileEffects.Keys)
+                string detailedInactiveProjBehaviors = "";
+                foreach (string projBehaviorKey in behaviorManager.inactiveEntityBehaviors.Keys)
                 {
-                    List<ProjectileEffect> projEffectList = effectManager.inactiveProjectileEffects[projEffectKey];
-                    totalProjEffects += projEffectList.Count;
+                    List<EntityBehaviour> projBehaviorList = behaviorManager.inactiveEntityBehaviors[projBehaviorKey];
+                    totalProjBehaviors += projBehaviorList.Count;
 
-                    detailedInactiveProjEffects += projEffectKey + ": " + projEffectList.Count + "\n";
+                    detailedInactiveProjBehaviors += projBehaviorKey + ": " + projBehaviorList.Count + "\n";
                 }
-                dump += "Total Projectile Effects: " + totalProjEffects + "\n";
+                dump += "Total Entity Behaviors: " + totalProjBehaviors + "\n";
                 #endregion
 
-                #region Get Spawner Effects
-                int totalSpawnerEffects = 0;
-                string detailedActiveSpawnerEffects = "";
-                foreach (string spawnerEffectKey in effectManager.activeSpawnerEffects.Keys)
+                #region Get Spawner Behaviors
+                int totalSpawnerBehaviors = 0;
+                string detailedActiveSpawnerBehaviors = "";
+                foreach (string spawnerBehaviorKey in behaviorManager.activeSpawnerBehaviors.Keys)
                 {
-                    List<SpawnerEffect> spawnerEffectList = effectManager.activeSpawnerEffects[spawnerEffectKey];
-                    totalSpawnerEffects += spawnerEffectList.Count;
+                    List<SpawnerBehavior> spawnerBehaviorList = behaviorManager.activeSpawnerBehaviors[spawnerBehaviorKey];
+                    totalSpawnerBehaviors += spawnerBehaviorList.Count;
 
-                    detailedActiveSpawnerEffects += spawnerEffectKey + ": " + spawnerEffectList.Count + "\n";
+                    detailedActiveSpawnerBehaviors += spawnerBehaviorKey + ": " + spawnerBehaviorList.Count + "\n";
                 }
 
-                string detailedInactiveSpawnerEffects = "";
-                foreach (string spawnerEffectKey in effectManager.inactiveSpawnerEffects.Keys)
+                string detailedInactiveSpawnerBehaviors = "";
+                foreach (string spawnerBehaviorKey in behaviorManager.inactiveSpawnerBehaviors.Keys)
                 {
-                    List<SpawnerEffect> spawnerEffectList = effectManager.inactiveSpawnerEffects[spawnerEffectKey];
-                    totalSpawnerEffects += spawnerEffectList.Count;
+                    List<SpawnerBehavior> spawnerBehaviorList = behaviorManager.inactiveSpawnerBehaviors[spawnerBehaviorKey];
+                    totalSpawnerBehaviors += spawnerBehaviorList.Count;
 
-                    detailedInactiveSpawnerEffects += spawnerEffectKey + ": " + spawnerEffectList.Count + "\n";
+                    detailedInactiveSpawnerBehaviors += spawnerBehaviorKey + ": " + spawnerBehaviorList.Count + "\n";
                 }
-                dump += "Total Spawner Effects: " + totalSpawnerEffects + "\n";
+                dump += "Total Spawner Behaviors: " + totalSpawnerBehaviors + "\n";
                 #endregion
 
                 dump += "\n"
-                    + "=== Active Projectile Effects ===" + "\n"
-                    + detailedActiveProjEffects + "\n"
-                    + "=== Inactive Projectile Effects ===" + "\n"
-                    + detailedInactiveProjEffects + "\n"
-                    + "=== Active Spawner Effects ===" + "\n"
-                    + detailedActiveSpawnerEffects + "\n"
-                    + "=== Inactive Spawner Effects ===" + "\n"
-                    + detailedInactiveSpawnerEffects;
+                    + "=== Active Entity Behaviors ===" + "\n"
+                    + detailedActiveProjBehaviors + "\n"
+                    + "=== Inactive Entity Behaviors ===" + "\n"
+                    + detailedInactiveProjBehaviors + "\n"
+                    + "=== Active Spawner Behaviors ===" + "\n"
+                    + detailedActiveSpawnerBehaviors + "\n"
+                    + "=== Inactive Spawner Behaviors ===" + "\n"
+                    + detailedInactiveSpawnerBehaviors;
 
-                lastEffectDump = dump;
+                lastBehaviorDump = dump;
             }
 
-            GUILayout.TextArea(lastEffectDump);
+            GUILayout.TextArea(lastBehaviorDump);
         }
     }
 }

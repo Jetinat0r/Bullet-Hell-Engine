@@ -64,7 +64,7 @@ public class ModManager : MonoBehaviour
 			Directory.CreateDirectory(ModPath);
 		}
 
-		//Recursively grabs the files of the desired types, choosing lower level files first in an attempt to find and load things like projectile files before the mods that rely on them
+		//Recursively grabs the files of the desired types, choosing lower level files first in an attempt to find and load things like entity files before the mods that rely on them
 		List<string> preCompFilePaths = new List<string>();
 		GetFilesRecursively(ModPath, ".dll", ref preCompFilePaths);
 		List<string> runtimeCompFilePaths = new List<string>();
@@ -126,7 +126,7 @@ public class ModManager : MonoBehaviour
 
 		SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(fileContent);
 
-		CSharpCompilation newCompiledScript = CSharpCompilation.Create("TestProjEffect.cs", syntaxTrees: new[] { syntaxTree }, references: references, options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+		CSharpCompilation newCompiledScript = CSharpCompilation.Create("TestProjBehavior.cs", syntaxTrees: new[] { syntaxTree }, references: references, options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
 		using (MemoryStream ms = new MemoryStream())
 		{

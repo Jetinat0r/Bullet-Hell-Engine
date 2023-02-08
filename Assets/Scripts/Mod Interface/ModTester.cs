@@ -10,7 +10,7 @@ public class ModTester : MonoBehaviour
     public static ModTester instance;
 
     [SerializeField]
-    private ProjectileSpawner spawner;
+    private EntitySpawner spawner;
 
     public enum ModTesterPanels
     {
@@ -46,8 +46,8 @@ public class ModTester : MonoBehaviour
     [SerializeField]
     private GameObject controlsPanel;
 
-    [Header("Projectile Prefab Panel")]
-    //Panel controlling the current type of projectile being used
+    [Header("Entity Prefab Panel")]
+    //Panel controlling the current type of entity being used
     [SerializeField]
     private GameObject projTypePanel;
     [SerializeField]
@@ -55,28 +55,28 @@ public class ModTester : MonoBehaviour
     [SerializeField]
     private ScrollPopulator projTypeScrollSection;
 
-    [Header("Projectile Effects Panel")]
-    //Panel controlling what effects are applied to the projectiles spawned
+    [Header("Entity Behaviors Panel")]
+    //Panel controlling what behaviors are applied to the entities spawned
     [SerializeField]
-    private GameObject projEffectsPanel;
+    private GameObject projBehaviorsPanel;
     [SerializeField]
-    private ScrollPopulator projEffectsScrollSection;
+    private ScrollPopulator projBehaviorsScrollSection;
 
-    [Header("Spawner Effects Panel")]
-    //Panel controlling what effects are applied to the spawner
+    [Header("Spawner Behaviors Panel")]
+    //Panel controlling what behaviors are applied to the spawner
     [SerializeField]
-    private GameObject spawnerEffectsPanel;
+    private GameObject spawnerBehaviorsPanel;
     [SerializeField]
-    private ScrollPopulator spawnerEffectsScrollSection;
+    private ScrollPopulator spawnerBehaviorsScrollSection;
 
-    [Header("Projectile Patterns Panel")]
+    [Header("Entity Patterns Panel")]
     //Panel controlling what patterns are used and in what order
     [SerializeField]
-    private GameObject projectilePatternsPanel;
+    private GameObject spawnerPatternsPanel;
     [SerializeField]
-    private ScrollPopulator activeProjectilePatternsScrollSection;
+    private ScrollPopulator activeSpawnerPatternsScrollSection;
     [SerializeField]
-    private ScrollPopulator availableProjectilePatternsScrollSection;
+    private ScrollPopulator availableSpawnerPatternsScrollSection;
     [SerializeField]
     private Toggle randomizePatternsToggle;
     [SerializeField]
@@ -160,43 +160,43 @@ public class ModTester : MonoBehaviour
 
     public void Init()
     {
-        //Generate Projectile Type Buttons
-        projTypeScrollSection.SetNumElements(CachedBHEResources.instance.projectilePrefabs.Count);
-        string[] projectilePrefabNames = CachedBHEResources.instance.projectilePrefabs.Keys.ToArray();
-        for(int i = 0; i < projectilePrefabNames.Length; i++)
+        //Generate Entity Type Buttons
+        projTypeScrollSection.SetNumElements(CachedBHEResources.instance.entityPrefabs.Count);
+        string[] entityPrefabNames = CachedBHEResources.instance.entityPrefabs.Keys.ToArray();
+        for(int i = 0; i < entityPrefabNames.Length; i++)
         {
             //Wish I didn't have to use GetComponent
-            projTypeScrollSection.elements[i].GetComponent<ProjectilePrefabInfoPanel>().Init(projectilePrefabNames[i]);
+            projTypeScrollSection.elements[i].GetComponent<EntityPrefabInfoPanel>().Init(entityPrefabNames[i]);
         }
 
-        //Generate Projectile Effect Buttons
-        projEffectsScrollSection.SetNumElements(CachedBHEResources.instance.projectileEffects.Count);
-        ProjectileEffect[] projectileEffects = CachedBHEResources.instance.projectileEffects.Values.ToArray();
-        for (int i = 0; i < projectileEffects.Length; i++)
+        //Generate Entity Behavior Buttons
+        projBehaviorsScrollSection.SetNumElements(CachedBHEResources.instance.entityBehaviors.Count);
+        EntityBehaviour[] entityBehaviors = CachedBHEResources.instance.entityBehaviors.Values.ToArray();
+        for (int i = 0; i < entityBehaviors.Length; i++)
         {
             //Wish I didn't have to use GetComponent
-            projEffectsScrollSection.elements[i].GetComponent<ProjectileEffectInfoPanel>().Init(projectileEffects[i]);
+            projBehaviorsScrollSection.elements[i].GetComponent<EntityBehaviorInfoPanel>().Init(entityBehaviors[i]);
         }
 
-        //Generate Spawner Effect Buttons
-        spawnerEffectsScrollSection.SetNumElements(CachedBHEResources.instance.spawnerEffects.Count);
-        SpawnerEffect[] spawnerEffects = CachedBHEResources.instance.spawnerEffects.Values.ToArray();
-        for (int i = 0; i < spawnerEffects.Length; i++)
+        //Generate Spawner Behavior Buttons
+        spawnerBehaviorsScrollSection.SetNumElements(CachedBHEResources.instance.spawnerBehaviors.Count);
+        SpawnerBehavior[] spawnerBehaviors = CachedBHEResources.instance.spawnerBehaviors.Values.ToArray();
+        for (int i = 0; i < spawnerBehaviors.Length; i++)
         {
             //Wish I didn't have to use GetComponent
-            spawnerEffectsScrollSection.elements[i].GetComponent<SpawnerEffectInfoPanel>().Init(spawnerEffects[i]);
+            spawnerBehaviorsScrollSection.elements[i].GetComponent<SpawnerBehaviorInfoPanel>().Init(spawnerBehaviors[i]);
         }
 
         //Generate Spawner Pattern Buttons
         //  Generate active list
         GenerateActivePatternScrollView();
         //  Generate avaliable list
-        availableProjectilePatternsScrollSection.SetNumElements(CachedBHEResources.instance.projectilePatterns.Count);
-        string[] availablePatterns = CachedBHEResources.instance.projectilePatterns.Keys.ToArray();
+        availableSpawnerPatternsScrollSection.SetNumElements(CachedBHEResources.instance.spawnerPatterns.Count);
+        string[] availablePatterns = CachedBHEResources.instance.spawnerPatterns.Keys.ToArray();
         for(int i = 0; i < availablePatterns.Length; i++)
         {
             //Wish I didn't have to use GetComponent
-            availableProjectilePatternsScrollSection.elements[i].GetComponent<ProjectilePatternInfoPanel>().Init(availablePatterns[i]);
+            availableSpawnerPatternsScrollSection.elements[i].GetComponent<SpawnerPatternInfoPanel>().Init(availablePatterns[i]);
         }
     }
 
@@ -215,15 +215,15 @@ public class ModTester : MonoBehaviour
                 break;
 
             case ModTesterPanels.PROJEFFECTS:
-                projEffectsPanel.SetActive(true);
+                projBehaviorsPanel.SetActive(true);
                 break;
 
             case ModTesterPanels.SPAWNEREFFECTS:
-                spawnerEffectsPanel.SetActive(true);
+                spawnerBehaviorsPanel.SetActive(true);
                 break;
 
             case ModTesterPanels.PROJECTILEPATTERNS:
-                projectilePatternsPanel.SetActive(true);
+                spawnerPatternsPanel.SetActive(true);
                 break;
 
             default:
@@ -237,12 +237,12 @@ public class ModTester : MonoBehaviour
         introPanel.SetActive(false);
         controlsPanel.SetActive(false);
         projTypePanel.SetActive(false);
-        projEffectsPanel.SetActive(false);
-        spawnerEffectsPanel.SetActive(false);
-        projectilePatternsPanel.SetActive(false);
+        projBehaviorsPanel.SetActive(false);
+        spawnerBehaviorsPanel.SetActive(false);
+        spawnerPatternsPanel.SetActive(false);
     }
 
-    public void UpdateProjectileName(string name)
+    public void UpdateEntityName(string name)
     {
         spawner.Disable();
         isSpawnerEnabled = false;
@@ -250,63 +250,63 @@ public class ModTester : MonoBehaviour
 
         curProjTypeText.text = "Cur Type: " + name;
 
-        spawner.spawnerProjectileType = name;
+        spawner.spawnerEntityType = name;
     }
 
-    public void AddProjectileEffect(string name)
+    public void AddEntityBehavior(string name)
     {
         spawner.Disable();
         isSpawnerEnabled = false;
         isSpawnerEnabledToggle.SetIsOnWithoutNotify(false);
 
-        spawner.defaultProjectileEffects.Add(name);
+        spawner.defaultEntityBehaviors.Add(name);
     }
 
-    public void RemoveProjectileEffect(string name)
+    public void RemoveEntityBehavior(string name)
     {
         spawner.Disable();
         isSpawnerEnabled = false;
         isSpawnerEnabledToggle.SetIsOnWithoutNotify(false);
 
-        spawner.defaultProjectileEffects.Remove(name);
+        spawner.defaultEntityBehaviors.Remove(name);
     }
 
-    public void AddSpawnerEffect(string name)
+    public void AddSpawnerBehavior(string name)
     {
         spawner.Disable();
         isSpawnerEnabled = false;
         isSpawnerEnabledToggle.SetIsOnWithoutNotify(false);
 
-        spawner.defaultSpawnerEffects.Add(name);
+        spawner.defaultSpawnerBehaviors.Add(name);
     }
 
-    public void RemoveSpawnerEffect(string name)
+    public void RemoveSpawnerBehavior(string name)
     {
         spawner.Disable();
         isSpawnerEnabled = false;
         isSpawnerEnabledToggle.SetIsOnWithoutNotify(false);
 
-        spawner.defaultSpawnerEffects.Remove(name);
+        spawner.defaultSpawnerBehaviors.Remove(name);
     }
 
     public void GenerateActivePatternScrollView()
     {
-        activeProjectilePatternsScrollSection.SetNumElements(activePatterns.Count);
+        activeSpawnerPatternsScrollSection.SetNumElements(activePatterns.Count);
         for (int i = 0; i < activePatterns.Count; i++)
         {
             //Wish I didn't have to use GetComponent
-            activeProjectilePatternsScrollSection.elements[i].GetComponent<ProjectilePatternInfoPanel>().Init(activePatterns[i], i);
+            activeSpawnerPatternsScrollSection.elements[i].GetComponent<SpawnerPatternInfoPanel>().Init(activePatterns[i], i);
         }
     }
 
-    public void AddProjectilePattern(string patternName)
+    public void AddSpawnerPattern(string patternName)
     {
         spawner.Disable();
         isSpawnerEnabled = false;
         isSpawnerEnabledToggle.SetIsOnWithoutNotify(false);
 
         activePatterns.Add(patternName);
-        spawner.defaultProjectilePatterns = activePatterns;
+        spawner.defaultSpawnerPatterns = activePatterns;
 
         //This must have at least 2 patterns to be used, and when adding, this will be the case (bc we can't go below 1)!
         randomizePatternsToggle.interactable = true;
@@ -314,7 +314,7 @@ public class ModTester : MonoBehaviour
         GenerateActivePatternScrollView();
     }
 
-    public void RemoveProjectilePattern(int index)
+    public void RemoveSpawnerPattern(int index)
     {
         if(activePatterns.Count > 1)
         {
@@ -323,7 +323,7 @@ public class ModTester : MonoBehaviour
             isSpawnerEnabledToggle.SetIsOnWithoutNotify(false);
 
             activePatterns.RemoveAt(index);
-            spawner.defaultProjectilePatterns = activePatterns;
+            spawner.defaultSpawnerPatterns = activePatterns;
 
             //If we're down to the last pattern, disable randomization
             if (activePatterns.Count == 1)
@@ -420,14 +420,14 @@ public class ModTester : MonoBehaviour
         te.Copy();
     }
 
-    public void ClearProjectiles()
+    public void ClearEntities()
     {
-        ProjectileManager.instance.ClearProjectilePools();
+        EntityManager.instance.ClearEntityPools();
     }
 
-    public void ClearEffectPools()
+    public void ClearBehaviorPools()
     {
-        EffectManager.instance.ClearAllEffectPools();
+        BehaviorManager.instance.ClearAllBehaviorPools();
     }
 
     public void ToggleUI()

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ProjectilePrefabInfoPanel : MonoBehaviour
+public class EntityPrefabInfoPanel : MonoBehaviour
 {
     [SerializeField]
     public TMP_Text prefabNameText;
@@ -17,8 +17,8 @@ public class ProjectilePrefabInfoPanel : MonoBehaviour
         storedPrefabName = prefabName;
     }
 
-    public void SetProjectileType()
+    public void SetEntityType()
     {
-        ModTester.instance.UpdateProjectileName(storedPrefabName);
+        ModTester.instance.UpdateEntityName(storedPrefabName);
     }
 }

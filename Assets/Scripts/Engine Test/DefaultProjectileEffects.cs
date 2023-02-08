@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Default Projectile Effects", menuName = "ScriptableObjects/Projectile Effects/Default Projectile Effects")]
-public class DefaultProjectileEffects : ProjectileEffect
+[CreateAssetMenu(fileName = "New Default Behaviors", menuName = "ScriptableObjects/Entity Behaviors/Default Entity Behaviors")]
+public class DefaultEntityBehaviors : EntityBehaviour
 {
+    public new const string EntityBehaviorType = "Default_Entity_Behaviors";
+    public override string GetEntityBehaviorType() => EntityBehaviorType;
+
     [Space(10f)]
-    [Header("Default Effect Vars")]
+    [Header("Default Behavior Vars")]
     public float lifetime = 2.5f;
     private float timeAlive = 0f;
 
@@ -17,55 +20,55 @@ public class DefaultProjectileEffects : ProjectileEffect
         timeAlive = 0f;
     }
 
-    //Assigns effects to the correct places in Projectile's sequence of events
-    public override void AddEffects(Projectile projectile)
+    //Assigns behaviors to the correct places in Entity's sequence of events
+    public override void AddBehaviors(Entity entity)
     {
-        if (!hasAppliedEffects)
+        if (!hasAppliedBehaviors)
         {
-            //Apply Effects
-            //Debug.Log("Applying Effects!");
+            //Apply Behaviors
+            //Debug.Log("Applying Behaviors!");
 
-            projectile.onMoveCalculationEvents += ChangeMovement;
-            projectile.customEvents += CustomEvent;
+            entity.onMoveCalculationEvents += ChangeMovement;
+            entity.customEvents += CustomEvent;
 
-            hasAppliedEffects = true;
+            hasAppliedBehaviors = true;
         }
 
         //Initialize lifetime timer
         timeAlive = 0f;
     }
 
-    //Removes the effects assigned in AddEffects()
-    public override void RemoveEffects(Projectile projectile)
+    //Removes the behaviors assigned in AddBehaviors()
+    public override void RemoveBehaviors(Entity entity)
     {
         if (isPermanent)
         {
-            //Debug.Log("Permanent effect, not removing");
+            //Debug.Log("Permanent behavior, not removing");
             return;
         }
 
-        //Remove Effects
-        //Debug.Log("Removing Effects");
+        //Remove Behaviors
+        //Debug.Log("Removing Behaviors");
 
-        projectile.onMoveCalculationEvents -= ChangeMovement;
-        projectile.customEvents -= CustomEvent;
+        entity.onMoveCalculationEvents -= ChangeMovement;
+        entity.customEvents -= CustomEvent;
 
-        //Destroy component after removing effects since it is not permanent
+        //Destroy component after removing behaviors since it is not permanent
         //Destroy(this);
     }
 
-    private void ChangeMovement(Projectile projectile)
+    private void ChangeMovement(Entity entity)
     {
-        projectile.nextPos += projectile.transform.right * projectile.speed * Time.fixedDeltaTime;
+        entity.nextPos += entity.transform.right * entity.speed * Time.fixedDeltaTime;
     }
 
-    private void CustomEvent(Projectile projectile)
+    private void CustomEvent(Entity entity)
     {
-        //Kill the projectile if it has reached the end of its lifetime
+        //Kill the entity if it has reached the end of its lifetime
         timeAlive += Time.fixedDeltaTime;
         if (timeAlive >= lifetime)
         {
-            projectile.Disable();
+            entity.Disable();
         }
     }
 }

@@ -2,64 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Create Spawner On Death Projectile Effect", menuName = "ScriptableObjects/Projectile Effects/Create Spawner On Death Projectile Effect")]
-public class CreateSpawnerOnDeathProjectileEffect : ProjectileEffect
+[CreateAssetMenu(fileName = "New Create Spawner On Death Behavior", menuName = "ScriptableObjects/Entity Behaviors/Create Spawner On Death Entity Behavior")]
+public class CreateSpawnerOnDeathEntityBehavior : EntityBehaviour
 {
+    public new const string EntityBehaviorType = "Create_Spawner_On_Death";
+    public override string GetEntityBehaviorType() => EntityBehaviorType;
+
     [Space(10)]
     [Header("Create Spawner On Death Vars")]
-    public ProjectileSpawner SpawnerPrefab;
+    public EntitySpawner SpawnerPrefab;
 
-    public List<SpawnerEffect> spawnerEffects = null;
+    public List<SpawnerBehavior> spawnerBehaviors = null;
 
     //Used to reset local values on copy
     public override void Init()
     {
-        spawnerEffects = null;
-        hasAppliedEffects = false;
+        spawnerBehaviors = null;
+        hasAppliedBehaviors = false;
     }
 
-    public override void Copy(ProjectileEffect oldEffect)
+    public override void Copy(EntityBehaviour oldBehavior)
     {
-        CreateSpawnerOnDeathProjectileEffect oE = (CreateSpawnerOnDeathProjectileEffect)oldEffect;
+        CreateSpawnerOnDeathEntityBehavior oE = (CreateSpawnerOnDeathEntityBehavior)oldBehavior;
         SpawnerPrefab = oE.SpawnerPrefab;
 
-        spawnerEffects = oE.spawnerEffects;
+        spawnerBehaviors = oE.spawnerBehaviors;
 
-        base.Copy(oldEffect);
+        base.Copy(oldBehavior);
     }
 
-    //Assigns effects to the correct places in Projectile's sequence of events
-    public override void AddEffects(Projectile projectile)
+    //Assigns behaviors to the correct places in Entity's sequence of events
+    public override void AddBehaviors(Entity entity)
     {
-        if (!hasAppliedEffects)
+        if (!hasAppliedBehaviors)
         {
-            //Apply Effects
-            //Debug.Log("Applying Effects!");
+            //Apply Behaviors
+            //Debug.Log("Applying Behaviors!");
 
-            projectile.onDeathEvents += CreateSpawner;
+            entity.onDeathEvents += CreateSpawner;
 
-            hasAppliedEffects = true;
+            hasAppliedBehaviors = true;
         }
     }
 
-    //For effects that synergize / work with other effects
-    public override void LateAddEffects(Projectile projectile)
+    //For behaviors that synergize / work with other behaviors
+    public override void LateAddBehaviors(Entity entity)
     {
-        if (!hasAppliedLateEffects)
+        if (!hasAppliedLateBehaviors)
         {
-            foreach (ProjectileEffect effect in projectile.projectileEffects)
+            foreach (EntityBehaviour behavior in entity.entityBehaviors)
             {
-                //If there is a SpawnerEffectContainerProjectileEffect available on the projectile, grab it's spawner effects
-                if (effect.projectileEffectType == SpawnerEffectContainerProjectileEffect.TYPE)
+                //If there is a SpawnerBehaviorContainerEntityBehavior available on the entity, grab it's spawner behaviors
+                if (behavior.GetEntityBehaviorType() == SpawnerBehaviorContainerEntityBehavior.EntityBehaviorType)
                 {
-                    SpawnerEffectContainerProjectileEffect spawnerInfo = effect as SpawnerEffectContainerProjectileEffect;
+                    SpawnerBehaviorContainerEntityBehavior spawnerInfo = behavior as SpawnerBehaviorContainerEntityBehavior;
 
-                    spawnerEffects = new List<SpawnerEffect>();
-                    foreach (SpawnerEffect se in spawnerInfo.spawnerEffects)
+                    spawnerBehaviors = new List<SpawnerBehavior>();
+                    foreach (SpawnerBehavior se in spawnerInfo.spawnerBehaviors)
                     {
-                        SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(se.spawnerEffectName);
-                        newSpawnerEffect.Copy(se);
-                        spawnerEffects.Add(newSpawnerEffect);
+                        SpawnerBehavior newSpawnerBehavior = BehaviorManager.instance.GetSpawnerBehavior(se.SpawnerBehaviorName);
+                        newSpawnerBehavior.Copy(se);
+                        spawnerBehaviors.Add(newSpawnerBehavior);
                     }
 
                     break;
@@ -68,61 +71,61 @@ public class CreateSpawnerOnDeathProjectileEffect : ProjectileEffect
         }
     }
 
-    //Removes the effects assigned in AddEffects()
-    public override void RemoveEffects(Projectile projectile)
+    //Removes the behaviors assigned in AddBehaviors()
+    public override void RemoveBehaviors(Entity entity)
     {
         if (isPermanent)
         {
             return;
         }
 
-        //Remove Effects
-        //Debug.Log("Removing Effects");
+        //Remove Behaviors
+        //Debug.Log("Removing Behaviors");
         
-        projectile.onDeathEvents -= CreateSpawner;
+        entity.onDeathEvents -= CreateSpawner;
     }
 
     //TODO: figure this out lol I really want lasers
-    public override T ConvertToLaserEffect<T>()
+    public override T ConvertToLaserBehavior<T>()
     {
         return default(T);
     }
 
-    private void CreateSpawner(Projectile projectile)
+    private void CreateSpawner(Entity entity)
     {
         //TODO: Enable pooling? and caching of spawner prefabs
-        ProjectileSpawner newSpawner = Instantiate(SpawnerPrefab, projectile.transform.position, projectile.transform.rotation);
+        EntitySpawner newSpawner = Instantiate(SpawnerPrefab, entity.transform.position, entity.transform.rotation);
 
         newSpawner.gameObject.SetActive(true);
         newSpawner.Init(_enableAfterInit:false, _destroyOnDisable:true);
 
-        if (spawnerEffects != null)
+        if (spawnerBehaviors != null)
         {
-            //Can't use newSpawner.AddSpawnerEffects() because I need to decrement generationsToInherit. Could I have done this better? sure. do i care enough to fix it? nope
-            foreach (SpawnerEffect se in spawnerEffects)
+            //Can't use newSpawner.AddSpawnerBehaviors() because I need to decrement generationsToInherit. Could I have done this better? sure. do i care enough to fix it? nope
+            foreach (SpawnerBehavior se in spawnerBehaviors)
             {
-                if(se.generationsToInheritEffect != 0)
+                if(se.generationsToInheritBehavior != 0)
                 {
-                    SpawnerEffect newSpawnerEffect = EffectManager.instance.GetSpawnerEffect(se.spawnerEffectName);
-                    newSpawnerEffect.Copy(se);
-                    newSpawnerEffect.generationsToInheritEffect--;
+                    SpawnerBehavior newSpawnerBehavior = BehaviorManager.instance.GetSpawnerBehavior(se.SpawnerBehaviorName);
+                    newSpawnerBehavior.Copy(se);
+                    newSpawnerBehavior.generationsToInheritBehavior--;
 
-                    newSpawner.spawnerEffects.Add(newSpawnerEffect);
+                    newSpawner.spawnerBehaviors.Add(newSpawnerBehavior);
                 }
             }
         }
 
         //Don't need a != null check here bc of how they are assigned
-        //Can't use newSpawner.AddProjectileEffects() because I need to decrement generationsToInherit. Could I have done this better? sure. do i care enough to fix it? nope
-        foreach (ProjectileEffect pe in projectile.projectileEffects)
+        //Can't use newSpawner.AddEntityBehaviors() because I need to decrement generationsToInherit. Could I have done this better? sure. do i care enough to fix it? nope
+        foreach (EntityBehaviour pe in entity.entityBehaviors)
         {
-            if(pe.generationsToInheritEffect != 0)
+            if(pe.generationsToInheritBehavior != 0)
             {
-                ProjectileEffect newProjEffect = EffectManager.instance.GetProjectileEffect(pe.projectileEffectName);
-                newProjEffect.Copy(pe);
-                newProjEffect.generationsToInheritEffect--;
+                EntityBehaviour newProjBehavior = BehaviorManager.instance.GetEntityBehavior(pe.EntityBehaviorName);
+                newProjBehavior.Copy(pe);
+                newProjBehavior.generationsToInheritBehavior--;
 
-                newSpawner.projectileEffects.Add(newProjEffect);
+                newSpawner.entityBehaviors.Add(newProjBehavior);
             }
         }
 
